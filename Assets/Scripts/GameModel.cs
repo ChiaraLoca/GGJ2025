@@ -39,6 +39,17 @@ public class Objective
 
 public class GameModel
 {
+    private static GameModel Instance;
+
+    public GameModel GetInstance()
+    {
+        if (Instance == null)
+        {
+            Instance = new GameModel();
+        }
+        return Instance;
+    }
+
     public List<PlayerModel> Players { get; set; }
 
     public List<string> CantoniSvizzeri = new List<string>
