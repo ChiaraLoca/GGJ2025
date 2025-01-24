@@ -30,7 +30,7 @@ public class Parser
     {
         var split = Regex.Split(line, " ");
         string target = split[0];
-
+        
         int amount = int.Parse(split[1]);
         string resource = split[2];
         return 0;
