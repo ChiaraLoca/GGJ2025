@@ -40,12 +40,13 @@ public class Objective
 public class GameModel
 {
     public List<PlayerModel> Players { get; set; }
-}
 
-public List<string> CantoniSvizzeri = new List<string>
+    public List<string> CantoniSvizzeri = new List<string>
 {
     "Uri", "Svitto", "Untervaldo", "Glarona", "Zugo", "Lucerna", "Zurigo", "Basilea", "Sciaffusa", "Appenzello", "Grisone", "Berna", "Soletta", "Friburgo", "Losanna", "Ginevra", "Neuchâtel", "Vaud", "Valais", "Ticino"
 };
+}
+
 
 
 
