@@ -86,6 +86,10 @@ namespace GameStatus
             }
         }
 
+        public void Scomunica(PlayerModel player)
+        {
+            player.Scomunica = true;
+        }
 
     }
 }
