@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameStatus;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +16,8 @@ public class LevelManager : MonoBehaviour
     public MessagePanel messagePanelPrefab;
     public PopeController popeControllerPrefab;
 
-   
+    [SerializeField] int secondsRefresh = 4;
+
 
     private void Start()
     {
@@ -33,9 +35,11 @@ public class LevelManager : MonoBehaviour
         PopeController popeController = Instantiate(popeControllerPrefab);
         popeController.Initialize();
 
-        InvokeRepeating("CheckForNewMails", 1, 8);
+        InvokeRepeating("CheckForNewMails", 1, secondsRefresh);
 
         StartPanel startPanel = Instantiate(startPanelPrefab, canvas);
+
+       
     }
 
     private void Awake()
@@ -54,6 +58,7 @@ public class LevelManager : MonoBehaviour
         resourceLabelsPanel.Initialize(new List<string> { "Cavalli", "Rame", "Ferro","Grano","Sale" });
 
         CancelInvoke("CheckForNewMails");
+        InvokeRepeating("CheckForGameEmail", 1, secondsRefresh);
     }
 
 
@@ -65,6 +70,19 @@ public class LevelManager : MonoBehaviour
         foreach (MailModel mail in mails)
         {
             GameStatus.GameStatusManager.instance.AddPlayer(mail);
+        }
+    }
+
+    public void CheckForGameEmail()
+    {
+        List<MailModel> mails = MailController.RetrieveEmail();
+        Debug.Log("CheckForNewMails " + string.Join(", ", mails));
+
+        foreach (MailModel mail in mails)
+        {
+            PlayerModel p = GameStatusManager.instance.FindPlayerByMail(mail.MailFrom);
+            int errors = Parser.Parse(mail.Body,p );
+            MailController.SendEmail(mail.MailFrom, "Epistola", MessageHelper.GetMailTextEstrattoConto(p, errors));
         }
     }
 

@@ -48,11 +48,7 @@ public static class QuestController
                 {
                     foreach (var item1 in players)
                     {
-                        var itemType = item.GetType();
-                        var scoreValue = (int)itemType.GetProperty(item.Type).GetValue(item1.Score);
-                        var currentValue = (int)itemType.GetProperty(item.Type).GetValue(score);
-
-                        if (scoreValue <= currentValue)
+                        if (score.getResource(item.Type) <= item1.Score.getResource(item.Type))
                         {
                             return false;
                         }
@@ -75,11 +71,7 @@ public static class QuestController
                 {
                     foreach (var item1 in players)
                     {
-                        var itemType = item.GetType();
-                        var scoreValue = (int)itemType.GetProperty(item.Type).GetValue(item1.Score);
-                        var currentValue = (int)itemType.GetProperty(item.Type).GetValue(score);
-
-                        if (scoreValue >= currentValue)
+                        if (score.getResource(item.Type) >= item1.Score.getResource(item.Type))
                         {
                             return false;
                         }
@@ -101,36 +93,36 @@ public static class QuestController
                 Description = "Per ogni risorsa non devi averne di più o di meno degli altri giocatori",
                 Check = (Score score, List<PlayerModel> players) =>
                 {
-                    int MaxHorses = players.Max(x => x.Score.Horses);
-                    int MinHorses = players.Min(x => x.Score.Horses);
-                    int MaxCoppers = players.Max(x => x.Score.Coppers);
-                    int MinCoppers = players.Min(x => x.Score.Coppers);
-                    int MaxIrons = players.Max(x => x.Score.Irons);
-                    int MinIrons = players.Min(x => x.Score.Irons);
-                    int MaxWheat = players.Max(x => x.Score.Wheat);
-                    int MinWheat = players.Min(x => x.Score.Wheat);
-                    int MaxSalt = players.Max(x => x.Score.Salt);
-                    int MinSalt = players.Min(x => x.Score.Salt);
+                    int MaxHorses = players.Max(x => x.Score.getResource("Horses"));
+                    int MinHorses = players.Min(x => x.Score.getResource("Horses"));
+                    int MaxCoppers = players.Max(x => x.Score.getResource("Coppers"));
+                    int MinCoppers = players.Min(x => x.Score.getResource("Coppers"));
+                    int MaxIrons = players.Max(x => x.Score.getResource("Irons"));
+                    int MinIrons = players.Min(x => x.Score.getResource("Irons"));
+                    int MaxWheat = players.Max(x => x.Score.getResource("Wheat"));
+                    int MinWheat = players.Min(x => x.Score.getResource("Wheat"));
+                    int MaxSalt = players.Max(x => x.Score.getResource("Salt"));
+                    int MinSalt = players.Min(x => x.Score.getResource("Salt"));
 
                     foreach (var item1 in players)
                     {
-                       if(item1.Score.Horses == MaxHorses || item1.Score.Horses == MinHorses)
+                       if(item1.Score.getResource("Horses") == MaxHorses || item1.Score.getResource("Horses") == MinHorses)
                         {
                             return false;
                         }
-                        if (item1.Score.Coppers == MaxCoppers || item1.Score.Coppers == MinCoppers)
+                        if (item1.Score.getResource("Coppers") == MaxCoppers || item1.Score.getResource("Coppers") == MinCoppers)
                         {
                             return false;
                         }
-                        if (item1.Score.Irons == MaxIrons || item1.Score.Irons == MinIrons)
+                        if (item1.Score.getResource("Irons") == MaxIrons || item1.Score.getResource("Irons") == MinIrons)
                         {
                             return false;
                         }
-                        if (item1.Score.Wheat == MaxWheat || item1.Score.Wheat == MinWheat)
+                        if (item1.Score.getResource("Wheat") == MaxWheat || item1.Score.getResource("Wheat") == MinWheat)
                         {
                             return false;
                         }
-                        if (item1.Score.Salt == MaxSalt || item1.Score.Salt == MinSalt)
+                        if (item1.Score.getResource("Salt") == MaxSalt || item1.Score.getResource("Salt") == MinSalt)
                         {
                             return false;
                         }

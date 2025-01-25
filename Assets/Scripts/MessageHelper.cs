@@ -37,11 +37,11 @@ public static class MessageHelper
         {
             string htmlContent = File.ReadAllText(LayoutEstrattoConto);
             htmlContent = htmlContent.Replace("{{{PlayerName}}}", player.Name);
-            htmlContent = htmlContent.Replace("{{{Horses}}}", player.Score.Horses.ToString());
-            htmlContent = htmlContent.Replace("{{{Coppers}}}", player.Score.Coppers.ToString());
-            htmlContent = htmlContent.Replace("{{{Iron}}}", player.Score.Irons.ToString());
-            htmlContent = htmlContent.Replace("{{{Wheat}}}", player.Score.Wheat.ToString());
-            htmlContent = htmlContent.Replace("{{{Salt}}}", player.Score.Salt.ToString());
+            htmlContent = htmlContent.Replace("{{{Horses}}}", player.Score.getResource("Horses").ToString());
+            htmlContent = htmlContent.Replace("{{{Coppers}}}", player.Score.getResource("Coppers").ToString());
+            htmlContent = htmlContent.Replace("{{{Iron}}}", player.Score.getResource("Irons").ToString());
+            htmlContent = htmlContent.Replace("{{{Wheat}}}", player.Score.getResource("Wheat").ToString());
+            htmlContent = htmlContent.Replace("{{{Salt}}}", player.Score.getResource("Salt").ToString());
             htmlContent = htmlContent.Replace("{{{Errors}}}", getLayoutErrori(errors));
             return htmlContent;
         }

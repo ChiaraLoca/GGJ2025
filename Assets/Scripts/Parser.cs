@@ -1,41 +1,35 @@
+using GameStatus;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEngine;
 
-public class Parser
+
+
+public static class Parser
 {
-    public static Parser Instance { get; private set; }
-    public Parser GetInstance()
-    {
-        if(Instance == null)
-        {
-            Instance = new Parser();
-        }
-        return Instance;
-    }
 
-    public int Parse(string text, PlayerModel mittente)
+
+    public static int Parse(string text, PlayerModel mittente)
     {
         var transactionText = Regex.Split(text, "\r\n|\r|\n");
         List<Transaction> transactions = new List<Transaction>();
         int errors = 0;
         foreach(string line in transactionText)
         {
-            errors += ParseLine(line, transactions);
+            errors += ParseLine(line, transactions, mittente);
         }
         if (!GameModel.checkBolle(transactions))
         {
-
+            //TODO ADD BOLLE
         }
         return errors;
     }
 
-    private int ParseLine(string line, List<Transaction> transactions)
+    private static int ParseLine(string line, List<Transaction> transactions, PlayerModel mittente)
     {
         var split = Regex.Split(line, " ");
         string target = split[0];
-        PlayerModel player = GameModel.FindPlayer(target);
+        PlayerModel player = GameStatusManager.instance.FindPlayer(target);
         if(player == null)
         {
             return 1;
@@ -48,15 +42,20 @@ public class Parser
         }
 
         string resource = split[2];
-        string realResource = player.Score.checkResourceName(resource);
+        string realResource = player.Score.checkResourceName(resource.ToLower());
+
+
         if(realResource == null)
         {
             return 1;
         }
+
         if (player.Score.enoughResource(realResource, realAmount))
         {
             player.Score.addResource(realResource, realAmount);
-        } else
+            mittente.Score.removeResource(realResource, realAmount);
+        } 
+        else
         {
             return 1;
         }
