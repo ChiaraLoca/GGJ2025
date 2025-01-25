@@ -1,12 +1,13 @@
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Security;
-
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Util.Store;
 using UnityEngine;
-
-
+using System;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections;
+using System.Net.Mail;
 
 namespace TestClient
 {
@@ -14,79 +15,49 @@ namespace TestClient
     {
         //Disperazione
 
-        async void Start()
+        void Start()
         {
             Debug.Log("Start of the method");
 
-            await Main();
-
-            Debug.Log("After the async operation");
+            // Avvia la coroutine per scaricare le email ogni 2 secondi
+            StartCoroutine(CheckEmailsPeriodically());
         }
 
-        static async Task Main()
+        IEnumerator CheckEmailsPeriodically()
         {
-            await ReceiveEmailWithOAuth2();
+            while (true)
+            {
+                // Esegui il metodo per ricevere le email
+                yield return ReceiveEmailWithOAuth2();
+
+                // Attendi 2 secondi prima di eseguire nuovamente
+                yield return new WaitForSeconds(2);
+            }
         }
 
         static async Task ReceiveEmailWithOAuth2()
         {
-            // Carica le credenziali OAuth2
-            UserCredential credential;
-
-            
-
-            using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
-            {
-                string credPath = "token.json";
-                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.FromStream(stream).Secrets,
-                    new[] { "https://www.googleapis.com/auth/gmail.readonly" },
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(credPath, true));
-            }
-
-            // Ottieni il token di accesso
-            string accessToken = credential.Token.AccessToken;
-
-            // Connetti al server Gmail tramite IMAP
             using (var client = new ImapClient())
             {
-                try
+                client.Connect("imap.gmail.com", 993, true);
+
+                client.Authenticate("papa.sisto.quarto@gmail.com", "Scomunica64!");
+
+                // The Inbox folder is always available on all IMAP servers...
+                var inbox = client.Inbox;
+                inbox.Open(FolderAccess.ReadOnly);
+
+                Console.WriteLine("Total messages: {0}", inbox.Count);
+                Console.WriteLine("Recent messages: {0}", inbox.Recent);
+
+                for (int i = 0; i < inbox.Count; i++)
                 {
-                    // Connetti al server IMAP di Gmail
-                    await client.ConnectAsync("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);
-
-                    // Autenticati con OAuth2
-                    var oauth2 = new SaslMechanismOAuth2("tuoindirizzo@gmail.com", accessToken);
-                    await client.AuthenticateAsync(oauth2);
-
-                    // Seleziona la casella di posta ("INBOX")
-                    await client.Inbox.OpenAsync(FolderAccess.ReadOnly);
-
-                    Console.WriteLine($"Numero totale di email: {client.Inbox.Count}");
-                    Console.WriteLine($"Numero di email non lette: {client.Inbox.Unread}");
-
-                    // Leggi le ultime 10 email
-                    for (int i = client.Inbox.Count - 1; i >= Math.Max(client.Inbox.Count - 10, 0); i--)
-                    {
-                        var message = await client.Inbox.GetMessageAsync(i);
-                        Console.WriteLine($"Mittente: {message.From}");
-                        Console.WriteLine($"Oggetto: {message.Subject}");
-                        Console.WriteLine($"Data: {message.Date}");
-                        Console.WriteLine($"Contenuto: {message.TextBody}");
-                        Console.WriteLine("------------------------------");
-                    }
-
-                    // Disconnetti il client
-                    await client.DisconnectAsync(true);
+                    var message = inbox.GetMessage(i);
+                    Console.WriteLine("Subject: {0}", message.Subject);
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Errore durante la lettura delle email: " + ex.Message);
-                }
+
+                client.Disconnect(true);
             }
         }
     }
 }
-
