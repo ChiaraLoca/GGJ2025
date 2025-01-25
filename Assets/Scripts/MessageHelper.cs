@@ -3,16 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Org.BouncyCastle.Crypto.Generators;
 
 
 public static class MessageHelper
 {
-    private static string LayoutInizioPath = "LayoutInizio.html";
-    private static string LayoutEstrattoConto = "LayoutEstrattoConto.html";
-    private static string LayoutScomunica = "LayoutScomunica.html";
-    private static string LayoutPartialErrors = "LayoutPartialErrors.html";
-    private static string LayoutVittoria = "LayoutVittoria.html";
-    private static string LayoutSconfitta = "LayoutSconfitta.html";
+    private static string LayoutInizioPath = "Assets/Scripts/Layouts/LayoutInizio.html";
+    private static string LayoutEstrattoConto = "Assets/Scripts/Layouts/LayoutEstrattoConto.html";
+    private static string LayoutScomunica = "Assets/Scripts/Layouts/LayoutScomunica.html";
+    private static string LayoutPartialErrors = "Assets/Scripts/Layouts/LayoutPartialErrors.html";
+    private static string LayoutVittoria = "Assets/Scripts/Layouts/LayoutVittoria.html";
+    private static string LayoutSconfitta = "Assets/Scripts/Layouts/LayoutSconfitta.html";
 
     public static string GetMailTextGameStart(string NomePlayer)
     {
