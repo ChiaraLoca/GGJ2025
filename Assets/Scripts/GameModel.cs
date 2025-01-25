@@ -8,7 +8,7 @@ public class PlayerModel
     public string Name { get; set; }
     public string Mail { get; set; }
     public Score Score { get; set; }
-
+    public bool Scomunica { get; set; }
     public Quest Quest { get; set; }
 
 
@@ -18,9 +18,7 @@ public class PlayerModel
 public class Quest
 {
     public string Description { get; set; }
-    public int Id { get; set; }
-    public Func<bool> Check { get; set; }
-  
+    public Func<Score, List<PlayerModel>, bool> Check { get; set; }
 }
 
 public class Score
@@ -43,15 +41,15 @@ public class Score
         ["wheat"] = 100
     };
 
-    public bool checkResourceName(string name)
+    public string checkResourceName(string name)
     {
         foreach(KeyValuePair<string, List<string>> entry in resourceNameMap) {
             if (entry.Value.Contains(name))
             {
-                return true;
+                return entry.Key;
             }
         };
-        return false;
+        return null;
     }
 
     public void addResource(string resource, int amount)
@@ -100,10 +98,33 @@ public static class GameModel
         return Players.Find(player => player.Name == name);
     }
 
+    public static List<BollaModel> bolle = new List<BollaModel>();
+
+    public static bool checkBolle(List<Transaction> transactions)
+    {
+        foreach(BollaModel bolla in bolle)
+        {
+            if(!bolla.check(transactions))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static List<string> CantoniSvizzeri = new List<string>
-{
-    "Uri", "Svitto", "Untervaldo", "Glarona", "Zugo", "Lucerna", "Zurigo", "Basilea", "Sciaffusa", "Appenzello", "Grisone", "Berna", "Soletta", "Friburgo", "Losanna", "Ginevra", "Neuch�tel", "Vaud", "Valais", "Ticino"
-};
+    {
+        "Uri", "Svitto", "Untervaldo", "Glarona", "Zugo", "Lucerna", "Zurigo", "Basilea", "Sciaffusa", "Appenzello", "Grisone", "Berna", "Soletta", "Friburgo", "Losanna", "Ginevra", "Neuch�tel", "Vaud", "Valais", "Ticino"
+    };
+
+    public static List<(string Description, string Type)> Risorse = new List<(string, string)>
+    {
+        ("Cavalli", "Horses"),
+        ("Rame", "Coppers"),
+        ("Ferro", "Irons"),
+        ("Sale", "Salt"),
+        ("Grano", "Wheat")
+    };
 }
 
 
