@@ -11,6 +11,8 @@ public static class MessageHelper
     private static string LayoutEstrattoConto = "LayoutEstrattoConto.html";
     private static string LayoutScomunica = "LayoutScomunica.html";
     private static string LayoutPartialErrors = "LayoutPartialErrors.html";
+    private static string LayoutVittoria = "LayoutVittoria.html";
+    private static string LayoutSconfitta = "LayoutSconfitta.html";
 
     public static string GetMailTextGameStart(string NomePlayer)
     {
@@ -61,6 +63,34 @@ public static class MessageHelper
         try
         {
             string htmlContent = File.ReadAllText(LayoutScomunica);
+            return htmlContent.Replace("{{{PlayerName}}}", NomePlayer);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Errore durante la lettura del file: " + ex.Message);
+            return "";
+        }
+    }
+
+    public static string GetMailTextVittoria(string NomePlayer)
+    {
+        try
+        {
+            string htmlContent = File.ReadAllText(LayoutVittoria);
+            return htmlContent.Replace("{{{PlayerName}}}", NomePlayer);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Errore durante la lettura del file: " + ex.Message);
+            return "";
+        }
+    }
+
+    public static string GetMailTextSconfitta(string NomePlayer)
+    {
+        try
+        {
+            string htmlContent = File.ReadAllText(LayoutSconfitta);
             return htmlContent.Replace("{{{PlayerName}}}", NomePlayer);
         }
         catch (Exception ex)
