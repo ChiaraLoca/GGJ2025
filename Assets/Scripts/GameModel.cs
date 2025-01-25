@@ -10,10 +10,6 @@ public class PlayerModel
 
     public int IdObjective { get; set; }
 
-    public static bool ResourcesAvailable(string resource, int amount)
-    {
-
-    }
 }
 
 public class Score
