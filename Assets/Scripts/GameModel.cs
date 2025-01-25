@@ -11,6 +11,8 @@ public class PlayerModel
     public bool Scomunica { get; set; }
     public Quest Quest { get; set; }
 
+
+
 }
 
 public class Quest
@@ -78,7 +80,12 @@ public class MailModel
 {
     public string Subject { get; set; }
     public string Body { get; set; }
-    public string MailTo { get; set; }
+    public string MailFrom { get; set; }
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
 }
 
 

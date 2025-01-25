@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Utility.GameEventManager;
-
 public class CantoneLabelsPanel : MonoBehaviour
 {
     public CantoneLabel cantoneLabelPrefab;
@@ -10,28 +8,15 @@ public class CantoneLabelsPanel : MonoBehaviour
 
     private List<CantoneLabel> _cantoneLabels = new List<CantoneLabel>();
 
-    private void OnEnable()
-    {
-        EventManager.AddListener<AddNewCantone>(OnAddNewCantone);
-    }
 
-    private void OnAddNewCantone(AddNewCantone cantone)
+    public void Initialize()
     {
-        
-    }
-
-    public void Initialize(List<string> strings)
-    {
-        foreach (string s in strings)
+        foreach (PlayerModel player in GameStatus.GameStatusManager.instance.Players)
         {
             CantoneLabel label = Instantiate(cantoneLabelPrefab, labelsParent);
             _cantoneLabels.Add(label);
-            label.SetLabel(s);
+            label.SetLabel(player.Name);
         }
     }
 }
 
-public class AddNewCantone : IGameEvent
-{ 
-
-}
