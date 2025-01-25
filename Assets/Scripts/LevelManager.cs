@@ -27,13 +27,11 @@ public class LevelManager : MonoBehaviour
 
         AddCantoneLabelsPanel addCantoneLabelsPanel = Instantiate(addCantoneLabelsPanelPrefab, canvas);
 
+       
 
-        MessagePanel messagePanel = Instantiate(messagePanelPrefab, canvas);
+        
 
-        PopeController popeController = Instantiate(popeControllerPrefab);
-        popeController.Initialize();
-
-        InvokeRepeating("CheckForNewMails", 1, 8);
+        //InvokeRepeating("CheckForNewMails", 1, 8);
 
         StartPanel startPanel = Instantiate(startPanelPrefab, canvas);
     }
@@ -52,6 +50,11 @@ public class LevelManager : MonoBehaviour
 
         ResourceLabelsPanel resourceLabelsPanel = Instantiate(resourceLabelsPanelPrefab, canvas);
         resourceLabelsPanel.Initialize(new List<string> { "Cavalli", "Rame", "Ferro","Grano","Sale" });
+
+        MessagePanel messagePanel = Instantiate(messagePanelPrefab, canvas);
+
+        PopeController popeController = Instantiate(popeControllerPrefab);
+        popeController.Initialize();
 
         CancelInvoke("CheckForNewMails");
     }
