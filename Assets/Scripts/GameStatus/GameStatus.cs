@@ -111,7 +111,7 @@ namespace GameStatus
         {
             foreach (PlayerModel player in instance.Players)
             {
-                if (QuestController.Check(player, instance._players))
+                if (QuestController.Check(player, instance.Players))
                 {
                     MailController.SendEmail(player.Mail, "La sua gratitudine è stata Ricompensata", MessageHelper.GetMailTextVittoria(player.Name));
                     continue;
