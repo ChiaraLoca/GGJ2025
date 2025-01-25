@@ -24,7 +24,7 @@ public class TestMailer : MonoBehaviour
         yield return new WaitForSeconds(8);
         if(_repeate)
         {
-            MailController.RetrieveEmail();
+            yield return MailController.RetrieveEmailAsync();
             _repeate = false;   
         }
            

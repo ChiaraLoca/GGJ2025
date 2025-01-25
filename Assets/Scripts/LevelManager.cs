@@ -1,5 +1,6 @@
 ﻿using GameStatus;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utility.GameEventManager;
@@ -29,11 +30,11 @@ public class LevelManager : MonoBehaviour
 
         AddCantoneLabelsPanel addCantoneLabelsPanel = Instantiate(addCantoneLabelsPanelPrefab, canvas);
 
-       
 
-        
 
-        InvokeRepeating("CheckForNewMails", 1, secondsRefresh);
+
+        StartCoroutine(CheckForNewMails());
+        //InvokeRepeating("CheckForNewMails", 1, secondsRefresh);
 
         StartPanel startPanel = Instantiate(startPanelPrefab, canvas);
 
@@ -60,40 +61,52 @@ public class LevelManager : MonoBehaviour
         PopeController popeController = Instantiate(popeControllerPrefab);
         popeController.Initialize();
 
-        CancelInvoke("CheckForNewMails");
-        InvokeRepeating("CheckForGameEmail", 1, secondsRefresh);
+        StopAllCoroutines();
+        //CancelInvoke("CheckForNewMails");
+        //InvokeRepeating("CheckForGameEmail", 1, secondsRefresh);
+        StartCoroutine(CheckForGameEmail());
     }
 
 
-    public void CheckForNewMails()
+    public IEnumerator CheckForNewMails()
     {
-        List<MailModel> mails = MailController.RetrieveEmail();
-        Debug.Log("CheckForNewMails "+string.Join(", ",mails));
-
-        foreach (MailModel mail in mails)
+        while (true)
         {
-            GameStatus.GameStatusManager.instance.AddPlayer(mail);
+            yield return StartCoroutine(MailController.RunRetrieveEmailAsyncAsCoroutine());
+            List<MailModel> mails = MailController.GetRetrievedEmailList();
+            Debug.Log("CheckForNewMails " + string.Join(", ", mails));
+
+            foreach (MailModel mail in mails)
+            {
+                GameStatus.GameStatusManager.instance.AddPlayer(mail);
+            }
+            yield return new WaitForSeconds(secondsRefresh);
         }
     }
 
-    public void CheckForGameEmail()
+    public IEnumerator CheckForGameEmail()
     {
-        List<MailModel> mails = MailController.RetrieveEmail();
-        Debug.Log("CheckForNewMails " + string.Join(", ", mails));
-
-        foreach (MailModel mail in mails)
+        while (true)
         {
-            PlayerModel p = GameStatusManager.instance.FindPlayerByMail(mail.MailFrom);
-            if (p.Scomunica)
-                continue;
-            int errors = Parser.Parse(mail.Body,p );
-            MailController.SendEmail(mail.MailFrom, "Epistola", MessageHelper.GetMailTextEstrattoConto(p, errors));
-        
-        }
+            yield return StartCoroutine(MailController.RunRetrieveEmailAsyncAsCoroutine());
+            List<MailModel> mails = MailController.GetRetrievedEmailList();
+            Debug.Log("CheckForGameEmail " + string.Join(", ", mails));
 
-        if (mails != null && mails.Count > 0)
-        {
-            EventManager.Broadcast(new SendResponseEvent(mails));
+            foreach (MailModel mail in mails)
+            {
+                PlayerModel p = GameStatusManager.instance.FindPlayerByMail(mail.MailFrom);
+                if (p.Scomunica)
+                    continue;
+                int errors = Parser.Parse(mail.Body, p);
+                MailController.SendEmail(mail.MailFrom, "Epistola", MessageHelper.GetMailTextEstrattoConto(p, errors));
+
+            }
+
+            if (mails != null && mails.Count > 0)
+            {
+                EventManager.Broadcast(new SendResponseEvent(mails));
+            }
+            yield return new WaitForSeconds(secondsRefresh);
         }
     }
 

@@ -6,52 +6,80 @@ using MimeKit;
 using MailKit.Search;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Collections;
+using UnityEngine;
+
 
 public static class MailController
     {
-        
-        /*public static List<MailModel> RetrieveEmail()
-        {
-            List<MailModel> emails = new List<MailModel>();
-            using (var client = new ImapClient())
-            {
-                client.Connect("imap.gmail.com", 993, true);
-                client.Authenticate("papa.sisto.quarto@gmail.com", "zpac evik xmbc cdry");
-                var inbox = client.Inbox;
 
-                inbox.Open(FolderAccess.ReadWrite);
-
-                // Retrieve only unread messages
-                var uids = inbox.Search(SearchQuery.NotSeen);
-                foreach (var uid in uids)
-                {
-                    var message = inbox.GetMessage(uid);
-                    string pattern = @"<([^>]+)>";
-
-                    Match match = Regex.Match(message.From.ToString(), pattern);
-
-                    
-
-
-                emails.Add(new MailModel
-                {
-                    Subject = message.Subject,
-                    Body = message.TextBody,
-                    MailFrom = match.Groups[1].Value
-                });
-                    inbox.AddFlags(uid, MessageFlags.Seen, true);
-
-                }
-                client.Disconnect(true);
-            }
-            return emails;
-        }*/
-
-
-
-    public static async Task<List<MailModel>> RetrieveEmailAsync()
+    /*public static List<MailModel> RetrieveEmail()
     {
         List<MailModel> emails = new List<MailModel>();
+        using (var client = new ImapClient())
+        {
+            client.Connect("imap.gmail.com", 993, true);
+            client.Authenticate("papa.sisto.quarto@gmail.com", "zpac evik xmbc cdry");
+            var inbox = client.Inbox;
+
+            inbox.Open(FolderAccess.ReadWrite);
+
+            // Retrieve only unread messages
+            var uids = inbox.Search(SearchQuery.NotSeen);
+            foreach (var uid in uids)
+            {
+                var message = inbox.GetMessage(uid);
+                string pattern = @"<([^>]+)>";
+
+                Match match = Regex.Match(message.From.ToString(), pattern);
+
+
+
+
+            emails.Add(new MailModel
+            {
+                Subject = message.Subject,
+                Body = message.TextBody,
+                MailFrom = match.Groups[1].Value
+            });
+                inbox.AddFlags(uid, MessageFlags.Seen, true);
+
+            }
+            client.Disconnect(true);
+        }
+        return emails;
+    }*/
+    public static IEnumerator TaskToCoroutine(Task task)
+    {
+        while (!task.IsCompleted)
+        {
+            yield return null;
+        }
+
+        if (task.IsFaulted)
+        {
+            throw task.Exception;
+        }
+    }
+
+    public static IEnumerator RunRetrieveEmailAsyncAsCoroutine()
+    {
+        // Esegui il metodo Task e attendi il suo completamento
+        yield return TaskToCoroutine(RetrieveEmailAsync());
+
+        // Codice da eseguire dopo il completamento del Task
+        Debug.Log("Task completato!");
+    }
+
+    public static List<MailModel> retrievedEmailList;
+
+    public static List<MailModel> GetRetrievedEmailList()
+    { 
+        return retrievedEmailList;
+    }
+    public static async Task RetrieveEmailAsync()
+    {
+        retrievedEmailList = new List<MailModel>();
 
         // Eseguiamo l'operazione in un task separato per evitare il blocco del thread principale
         await Task.Run(() =>
@@ -72,7 +100,7 @@ public static class MailController
                     string pattern = @"<([^>]+)>";
                     Match match = Regex.Match(message.From.ToString(), pattern);
 
-                    emails.Add(new MailModel
+                    retrievedEmailList.Add(new MailModel
                     {
                         Subject = message.Subject,
                         Body = message.TextBody,
@@ -87,14 +115,15 @@ public static class MailController
             }
         });
 
-        return emails;
+       
     }
 
 
+    
 
 
 
-public static void SendEmail(string to, string subject, string body)
+    public static void SendEmail(string to, string subject, string body)
         {
             using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
