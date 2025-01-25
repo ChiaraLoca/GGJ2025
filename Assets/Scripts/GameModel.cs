@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,16 @@ public class PlayerModel
     public string Mail { get; set; }
     public Score Score { get; set; }
 
-    public int IdObjective { get; set; }
+    public Quest Quest { get; set; }
 
+}
+
+public class Quest
+{
+    public string Description { get; set; }
+    public int Id { get; set; }
+    public Func<bool> Check { get; set; }
+  
 }
 
 public class Score
@@ -66,22 +75,6 @@ public class Score
 }
 
 
-public class Objective
-{
-    public int Id { get; set; }
-    public string Description { get; set; }
-    public int? MaxHorses { get; set; }
-    public int? MinHorses { get; set; }
-    public int? MaxCoppers { get; set; }
-    public int? MinCoppers { get; set; }
-    public int? MaxIrons { get; set; }
-    public int? MinIrons { get; set; }
-    public int? MaxSalt { get; set; }
-    public int? MinSalt { get; set; }
-    public int? MaxWheat { get; set; }
-    public int? MinWheat { get; set; }
-
-}
 
 public class MailModel
 {

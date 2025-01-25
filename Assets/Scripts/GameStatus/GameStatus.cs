@@ -25,6 +25,7 @@ namespace GameStatus
      
         [SerializeField] private float _maxSeconds;
         [SerializeField] private float _currentSeconds;
+        private List<PlayerModel> _players = new List<PlayerModel>();
         private bool _gameRunning = false;
 
         private void Awake()
@@ -51,41 +52,36 @@ namespace GameStatus
         public void Start()
         {
             StartGame();
-            //DontDestroyOnLoad(this);
         }
 
-        public void Initialize()
-        {
-
-            //ScoreManager.Initialize();
-            //foreach (interactableBehaviour interactableBehaviour in _interactableehaviours)
-            //{
-            //    interactableBehaviour.Info.Done = false;
-            //}
-
-            //CreatePlayer();
-        }
-
-
-
-      
+       
         public void StartGame()
         {
 
-            AudioManager.instance.track(2, false);
+          //  AudioManager.instance.track(2, false); TODO AUDIOMANAGER
             _currentSeconds = 0;
-            Initialize();
+            //TODO LEVEL START 
             _gameRunning = true;
         }
         public void EndGame()
         {
 
-           // CaclculateScore();
+            CaclculateScore();
             _gameRunning = false;
-            SceneManager.LoadScene("2_Final_Demo");
+          //  SceneManager.LoadScene("2_Final_Demo");
         }
 
-        
+        private static void CaclculateScore()
+        {
+            foreach (PlayerModel player in instance._players)
+            {
+                if (player.Quest.Check())
+                {
+
+                }
+            }
+        }
+
 
     }
 }
