@@ -16,9 +16,7 @@ public class PlayerModel
 public class Quest
 {
     public string Description { get; set; }
-    public int Id { get; set; }
-    public Func<bool> Check { get; set; }
-  
+    public Func<Score, List<PlayerModel>, bool> Check { get; set; }
 }
 
 public class Score
@@ -94,9 +92,18 @@ public static class GameModel
     }
 
     public static List<string> CantoniSvizzeri = new List<string>
-{
-    "Uri", "Svitto", "Untervaldo", "Glarona", "Zugo", "Lucerna", "Zurigo", "Basilea", "Sciaffusa", "Appenzello", "Grisone", "Berna", "Soletta", "Friburgo", "Losanna", "Ginevra", "Neuch�tel", "Vaud", "Valais", "Ticino"
-};
+    {
+        "Uri", "Svitto", "Untervaldo", "Glarona", "Zugo", "Lucerna", "Zurigo", "Basilea", "Sciaffusa", "Appenzello", "Grisone", "Berna", "Soletta", "Friburgo", "Losanna", "Ginevra", "Neuch�tel", "Vaud", "Valais", "Ticino"
+    };
+
+    public static List<(string Description, string Type)> Risorse = new List<(string, string)>
+    {
+        ("Cavalli", "Horses"),
+        ("Rame", "Coppers"),
+        ("Ferro", "Irons"),
+        ("Sale", "Salt"),
+        ("Grano", "Wheat")
+    };
 }
 
 
