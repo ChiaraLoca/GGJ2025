@@ -1,17 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 using Utility.GameEventManager;
+
 
 public class LevelManager : MonoBehaviour
 {
     public Transform canvas;
     public StartPanel startPanelPrefab;
+    public AddCantoneLabelsPanel addCantoneLabelsPanelPrefab;
     public CantoneLabelsPanel cantoneLabelsPanelPrefab;
     public ResourceLabelsPanel resourceLabelsPanelPrefab;
     public MessagePanel messagePanelPrefab;
     public PopeController popeControllerPrefab;
-    
+
+   
+
     private void Start()
     {
         Initialzie();
@@ -19,8 +24,18 @@ public class LevelManager : MonoBehaviour
 
     public void Initialzie()
     {
-        StartPanel startPanel = Instantiate(startPanelPrefab, canvas);
 
+        AddCantoneLabelsPanel addCantoneLabelsPanel = Instantiate(addCantoneLabelsPanelPrefab, canvas);
+
+
+        MessagePanel messagePanel = Instantiate(messagePanelPrefab, canvas);
+
+        PopeController popeController = Instantiate(popeControllerPrefab);
+        popeController.Initialize();
+
+        InvokeRepeating("CheckForNewMails", 1, 8);
+
+        StartPanel startPanel = Instantiate(startPanelPrefab, canvas);
     }
 
     private void Awake()
@@ -30,20 +45,28 @@ public class LevelManager : MonoBehaviour
 
     private void OnStart(StartEvent evt)
     {
-        //Non Qui
+        EventManager.Broadcast(new HideMessageEvent());
+       
         CantoneLabelsPanel cantoneLabelsPanel = Instantiate(cantoneLabelsPanelPrefab, canvas);
-        cantoneLabelsPanel.Initialize(new List<string>{"Ticino","Uri","Svito"});
+        cantoneLabelsPanel.Initialize();
 
-        //ResourceLabelsPanel resourceLabelsPanel = Instantiate(resourceLabelsPanelPrefab, canvas);
-        //resourceLabelsPanel.Initialize(new List<string> { "Cavalli", "Rame", "Ferro","Grano","Sale" });
+        ResourceLabelsPanel resourceLabelsPanel = Instantiate(resourceLabelsPanelPrefab, canvas);
+        resourceLabelsPanel.Initialize(new List<string> { "Cavalli", "Rame", "Ferro","Grano","Sale" });
 
-        MessagePanel messagePanel = Instantiate(messagePanelPrefab, canvas);
-
-        PopeController popeController = Instantiate(popeControllerPrefab);
-        popeController.Initialize();
+        CancelInvoke("CheckForNewMails");
     }
 
 
-    
+    public void CheckForNewMails()
+    {
+        List<MailModel> mails = MailController.RetrieveEmail();
+        Debug.Log("CheckForNewMails "+string.Join(", ",mails));
+
+        foreach (MailModel mail in mails)
+        {
+            GameStatus.GameStatusManager.instance.AddPlayer(mail);
+        }
+    }
+
 
 }

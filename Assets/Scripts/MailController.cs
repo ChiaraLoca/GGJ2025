@@ -5,11 +5,15 @@ using MailKit.Security;
 using System.Collections.Generic;
 using MimeKit;
 using MailKit.Search;
+using System.Text.RegularExpressions;
+using System;
+
+
 
 
 public static class MailController
     {
-    
+        
         public static List<MailModel> RetrieveEmail()
         {
             List<MailModel> emails = new List<MailModel>();
@@ -26,12 +30,19 @@ public static class MailController
                 foreach (var uid in uids)
                 {
                     var message = inbox.GetMessage(uid);
-                    emails.Add(new MailModel
-                    {
-                        Subject = message.Subject,
-                        Body = message.TextBody,
-                        MailTo = message.To.ToString()
-                    });
+                    string pattern = @"<([^>]+)>";
+
+                    Match match = Regex.Match(message.From.ToString(), pattern);
+
+                    
+
+
+                emails.Add(new MailModel
+                {
+                    Subject = message.Subject,
+                    Body = message.TextBody,
+                    MailFrom = match.Groups[1].Value
+                });
                     inbox.AddFlags(uid, MessageFlags.Seen, true);
 
                 }

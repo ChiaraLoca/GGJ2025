@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utility.GameEventManager;
 
 namespace GameStatus
 {
@@ -25,8 +26,43 @@ namespace GameStatus
      
         [SerializeField] private float _maxSeconds;
         [SerializeField] private float _currentSeconds;
-        private List<PlayerModel> _players = new List<PlayerModel>();
+        public List<PlayerModel> Players = new List<PlayerModel>();
         private bool _gameRunning = false;
+
+       
+
+        public PlayerModel FindPlayer(string name)
+        {
+            return Players.Find(player => player.Name == name);
+        }
+        public PlayerModel FindPlayerByMail(string mail)
+        {
+            return Players.Find(player => player.Mail == mail);
+        }
+
+        public void AddPlayer(MailModel mailModel)
+        {
+            PlayerModel found = FindPlayerByMail(mailModel.MailFrom);
+            if (found == null)
+            {
+                PlayerModel newPlayer = new PlayerModel();
+                newPlayer.Mail = mailModel.MailFrom;
+                newPlayer.Name = GetRandomName();
+                Players.Add(newPlayer);
+                EventManager.Broadcast(new AddNewCantoneEvent(newPlayer));
+                MailController.SendEmail(newPlayer.Mail,"Epistola", MessageHelper.GetMailTextGameStart(newPlayer.Name));
+            }
+                
+        }
+
+        public string GetRandomName()
+        { 
+            int randomIndex = UnityEngine.Random.Range(0, GameModel.CantoniSvizzeri.Count);
+            String res = GameModel.CantoniSvizzeri[randomIndex];
+            GameModel.CantoniSvizzeri.RemoveAt(randomIndex);
+            return res;
+
+        }
 
         private void Awake()
         {
@@ -37,12 +73,12 @@ namespace GameStatus
         {
             if (_gameRunning)
             {
-                _currentSeconds += Time.deltaTime;
+               /* _currentSeconds += Time.deltaTime;
                 TimerUI.instance.UpdateUI(_maxSeconds - _currentSeconds);
                 if (_currentSeconds >= _maxSeconds)
                 {
                     EndGame();
-                }
+                }*/
 
             }
 
@@ -73,7 +109,7 @@ namespace GameStatus
 
         private static void CaclculateScore()
         {
-            foreach (PlayerModel player in instance._players)
+            foreach (PlayerModel player in instance.Players)
             {
                 if (player.Quest.Check())
                 {
