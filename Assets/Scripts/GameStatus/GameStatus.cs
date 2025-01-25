@@ -77,10 +77,11 @@ namespace GameStatus
             {
                 if (player.Quest.Check())
                 {
-                    MailController.SendEmail(player.Mail, "La sua gratitudine è stata Ricompensata", MessageHelper.GetMailTextVittoria());
+                    MailController.SendEmail(player.Mail, "La sua gratitudine è stata Ricompensata", MessageHelper.GetMailTextVittoria(player.Name));
                     continue;
                 }
-                MailController.SendEmail(player.Mail, "Non siete degni della divina indulgenza", MessageHelper.GetMailTextSconfitta());
+                MailController.SendEmail(player.Mail, "Dilectis in Christo filiis, salutem et apostolicam benedictionem", MessageHelper.GetMailTextSconfitta(player.Name));
+     
 
             }
         }
