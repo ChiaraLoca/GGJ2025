@@ -15,12 +15,14 @@ public static class MessageHelper
     private static string LayoutVittoria = "Assets/Scripts/Layouts/LayoutVittoria.html";
     private static string LayoutSconfitta = "Assets/Scripts/Layouts/LayoutSconfitta.html";
 
-    public static string GetMailTextGameStart(string NomePlayer)
+    public static string GetMailTextGameStart(string NomePlayer, string Obiettivo)
     {
         try
         {
             string htmlContent = File.ReadAllText(LayoutInizioPath);
-            return htmlContent.Replace("{{{PlayerName}}}", NomePlayer);
+            htmlContent.Replace("{{{PlayerName}}}", NomePlayer);
+            htmlContent.Replace("{{{OBIETTIVO}}}", Obiettivo);
+            return htmlContent;
         }
         catch (Exception ex)
         {
