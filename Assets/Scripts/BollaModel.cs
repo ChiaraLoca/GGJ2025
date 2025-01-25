@@ -10,14 +10,16 @@ public interface BollaModel
 
 public class BanBolla : BollaModel
 {
-    BanBolla(params string[] resources)
+    BanBolla(int mode, int amount, params string[] resources)
     {
         this.resources = new List<string>(resources);
+        this.amount = amount;
     }
     private List<string> resources;
+    private int amount;
     public bool check()
     {
-        throw new System.NotImplementedException();
+        return true;
     }
 
     public string getDescription()
