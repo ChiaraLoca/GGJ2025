@@ -23,28 +23,35 @@ public class Quest
 
 public class Score
 {
-
-    private Dictionary<string, List<string>> resourceNameMap = new Dictionary<string, List<string>>() {
-        ["horse"] = new List<string>() { "cavallo", "cavalli", "horse", "horses" },
-        ["copper"] = new List<string>() { "rame", "copper"},
-        ["iron"] = new List<string>() { "ferro", "iron"},
-        ["salt"] = new List<string>() { "sale", "salt"},
-        ["wheat"] = new List<string>() { "wheat", "grano"}
-    };
-
-    private Dictionary<string, int> resourceMap = new Dictionary<string, int>()
+    public Score()
     {
-        ["horse"] = 100,
-        ["copper"] = 100,
-        ["iron"] = 100,
-        ["salt"] = 100,
-        ["wheat"] = 100
-    };
+        Resources = new Dictionary<string, int>()
+        {
+            ["Horses"] = 100,
+            ["Coppers"] = 100,
+            ["Irons"] = 100,
+            ["Salt"] = 100,
+            ["Wheat"] = 100
+        };
+        ResourceNameMap = new Dictionary<string, List<string>>()
+        {
+            ["Horses"] = new List<string>() { "cavallo", "cavalli", "horse", "horses" },
+            ["Coppers"] = new List<string>() { "rame", "copper" },
+            ["Irons"] = new List<string>() { "ferro", "iron" },
+            ["Salt"] = new List<string>() { "sale", "salt" },
+            ["Wheat"] = new List<string>() { "wheat", "grano" }
+        };
 
+    }
+
+    private Dictionary<string, int> Resources { get; set; }
+    private Dictionary<string, List<string>> ResourceNameMap { get; set; }
     public string checkResourceName(string name)
     {
-        foreach(KeyValuePair<string, List<string>> entry in resourceNameMap) {
-            if (entry.Value.Contains(name))
+
+        
+        foreach(var entry in ResourceNameMap) {
+            if (entry.Value.Contains(name.ToLower()))
             {
                 return entry.Key;
             }
@@ -54,24 +61,27 @@ public class Score
 
     public void addResource(string resource, int amount)
     {
-        resourceMap[resource] += amount;
+        Resources[resource] += amount;
     }
 
     public void removeResource(string resource, int amount)
     {
-        resourceMap[resource] -= amount;
+        Resources[resource] -= amount;
     }
 
     public bool enoughResource(string resource, int amount)
     {
-        return resourceMap[resource] >= amount;
+        return Resources[resource] >= amount;
     }
 
-    public int Horses { get; set; }
-    public int Coppers { get; set; }
-    public int Irons { get; set; }
-    public int Salt { get; set; }
-    public int Wheat { get; set; }
+    public int getResource(string resource)
+    {
+        return Resources[resource];
+    }
+
+   
+
+    
 }
 
 
@@ -114,7 +124,7 @@ public static class GameModel
 
     public static List<string> CantoniSvizzeri = new List<string>
     {
-        "Uri", "Svitto", "Untervaldo", "Glarona", "Zugo", "Lucerna", "Zurigo", "Basilea", "Sciaffusa", "Appenzello", "Grisone", "Berna", "Soletta", "Friburgo", "Losanna", "Ginevra", "Neuch�tel", "Vaud", "Valais", "Ticino"
+        "Uri", "Svitto", "Untervaldo", "Glarona", "Zugo", "Lucerna", "Zurigo", "Basilea", "Sciaffusa", "Appenzello", "Grisone", "Berna", "Soletta", "Friburgo", "Losanna", "Ginevra", "Vaud", "Valais", "Ticino"
     };
 
     public static List<(string Description, string Type)> Risorse = new List<(string, string)>
