@@ -21,13 +21,20 @@ using Utility.GameEventManager;
         { 
             yield return new WaitForSeconds(time);
 
-            EventManager.Broadcast(new CreateBubbleEvent());
+            BollaModel bollaModel = new BanBolla(1,50,"Horses","Salt");
+
+            EventManager.Broadcast(new CreateBubbleEvent(bollaModel));
         }
     }
 
     
 
 public class CreateBubbleEvent : IGameEvent
-{ 
-    // Create bubble
+{
+    public BollaModel bolla;
+
+    public CreateBubbleEvent(BollaModel bolla)
+    {
+        this.bolla = bolla;
+    }
 }

@@ -1,9 +1,19 @@
 using GameStatus;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Utility.GameEventManager;
 
+public class ScomunicaEvent : IGameEvent
+{
+   public PlayerModel player;
 
+    public ScomunicaEvent(PlayerModel player)
+    {
+        this.player = player;
+    }
+}
 
 public static class Parser
 {
@@ -20,7 +30,7 @@ public static class Parser
         }
         if (!GameModel.checkBolle(transactions))
         {
-            //TODO ADD BOLLE
+            EventManager.Broadcast(new ScomunicaEvent(mittente));
         }
         return errors;
     }

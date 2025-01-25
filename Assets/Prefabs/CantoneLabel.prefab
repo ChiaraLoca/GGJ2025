@@ -111,6 +111,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 2862409672175020548}
+  image: {fileID: 7183355866123091462}
+  disabledColor: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
 --- !u!1 &8714473515636264509
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utility.GameEventManager;
 
 public class PlayerModel
 {
@@ -79,8 +80,6 @@ public class Score
         return Resources[resource];
     }
 
-   
-
     
 }
 
@@ -101,6 +100,16 @@ public class MailModel
 
 public static class GameModel
 {
+    public static void Init()
+    {
+        EventManager.AddListener<CreateBubbleEvent>(OnBubbleCreated);
+    }
+
+    private static void OnBubbleCreated(CreateBubbleEvent evt)
+    {
+        bolle.Add(evt.bolla);
+    }
+
     public static List<PlayerModel> Players { get; set; }
 
     public static PlayerModel FindPlayer(string name)

@@ -1,42 +1,53 @@
-﻿using TMPro;
+﻿using System;
+using System.Collections.Generic;
+using TMPro;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 using Utility.GameEventManager;
 
+
 public class MessagePanel : MonoBehaviour 
 {
-    public GameObject panel;
-    public TextMeshProUGUI text;
+    public MessageContentPanel messageContentPanelPrefab;
 
-    private void OnEnable()
+    public Transform messageParent;
+
+    public Queue<string> messages = new Queue<string>();
+
+    private void Start()
     {
-        EventManager.AddListener<ShowMessageEvent>(OnShowMessage);
-        EventManager.AddListener<HideMessageEvent>(OnHideMessage);
+        EventManager.AddListener<AddMessageEvent>(OnAddMessage);
+
+        InvokeRepeating("ShowMessage", 5, 15);
     }
 
-    public void OnShowMessage(ShowMessageEvent evt)
+    public void OnAddMessage(AddMessageEvent evt)
     {
-        panel.gameObject.SetActive(true);
-        text.text = evt.message;
+        messages.Enqueue(evt.message);
+
+        
     }
 
-    public void OnHideMessage(HideMessageEvent evt)
+    public void ShowMessage()
     {
-        panel.gameObject.SetActive(false);
-        panel.gameObject.SetActive(false);
+        if (messages.Count > 0)
+        {
+            MessageContentPanel messageContentPanel = Instantiate(messageContentPanelPrefab, messageParent);
+            messageContentPanel.Initialize(messages.Dequeue());
+            messageContentPanel.transform.SetAsFirstSibling();
+        }
     }
+   
 }
 
-public class ShowMessageEvent : IGameEvent
+public class AddMessageEvent : IGameEvent
 {
     public string message;
 
-    public ShowMessageEvent(string message)
+    public AddMessageEvent(string message)
     {
         this.message = message;
     }
 }
-public class HideMessageEvent : IGameEvent
-{
-    
-}
+

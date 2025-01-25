@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
 using Utility.GameEventManager;
 
 
@@ -26,6 +25,7 @@ public class LevelManager : MonoBehaviour
 
     public void Initialzie()
     {
+        GameModel.Init();
 
         AddCantoneLabelsPanel addCantoneLabelsPanel = Instantiate(addCantoneLabelsPanelPrefab, canvas);
 
@@ -47,7 +47,7 @@ public class LevelManager : MonoBehaviour
 
     private void OnStart(StartEvent evt)
     {
-        EventManager.Broadcast(new HideMessageEvent());
+        
        
         CantoneLabelsPanel cantoneLabelsPanel = Instantiate(cantoneLabelsPanelPrefab, canvas);
         cantoneLabelsPanel.Initialize();
@@ -84,10 +84,28 @@ public class LevelManager : MonoBehaviour
         foreach (MailModel mail in mails)
         {
             PlayerModel p = GameStatusManager.instance.FindPlayerByMail(mail.MailFrom);
+            if (p.Scomunica)
+                continue;
             int errors = Parser.Parse(mail.Body,p );
             MailController.SendEmail(mail.MailFrom, "Epistola", MessageHelper.GetMailTextEstrattoConto(p, errors));
+        
+        }
+
+        if (mails != null && mails.Count > 0)
+        {
+            EventManager.Broadcast(new SendResponseEvent(mails));
         }
     }
 
 
+}
+
+public class SendResponseEvent : IGameEvent
+{
+    public List<MailModel> mails;
+
+    public SendResponseEvent(List<MailModel> mails)
+    {
+        this.mails = mails;
+    }
 }
