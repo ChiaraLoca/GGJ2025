@@ -5,7 +5,8 @@ using MailKit.Security;
 using System.Collections.Generic;
 using MimeKit;
 using MailKit.Search;
-
+using System;
+using System.IO;
 
 public static class MailController
     {
@@ -50,11 +51,19 @@ public static class MailController
                 message.From.Add(new MailboxAddress("Papa Sisto IV", "papa.sisto.quarto@gmail.com"));
                 message.To.Add(new MailboxAddress("", to));
                 message.Subject = subject;
-
-                message.Body = new TextPart("html")
+               
+                
+                var bodyBuilder = new BodyBuilder
                 {
-                    Text = body
+                    HtmlBody = body
                 };
+                var logoPath = "Assets/Images/sigillo3D.png"; // Path relativo o assoluto dell'immagine
+                var logo = bodyBuilder.LinkedResources.Add(logoPath);
+                logo.ContentId = "logo-image"; // Deve corrispondere al CID specificato nell'HTML
+                logo.ContentDisposition = new ContentDisposition(ContentDisposition.Inline);
+                logo.ContentType.MediaType = "image";
+                logo.ContentType.MediaSubtype = "png";
+                message.Body = bodyBuilder.ToMessageBody();
                 client.Send(message);
                 client.Disconnect(true);
             }

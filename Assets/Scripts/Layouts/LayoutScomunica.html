@@ -1,102 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Epistola Papale</title>
-  <style>
-    /* General Reset */
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Garamond', serif;
-      background-color: #f4f1e3;
-      background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
-      background-size: cover;
-      background-attachment: fixed;
-      color: #3b2f2f;
-    }
-
-    /* Container Styling */
-    .container {
-      max-width: 800px;
-      margin: 50px auto;
-      background: rgba(255, 255, 255, 0.85);
-      padding: 30px;
-      border: 2px solid #c1a97e;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      text-align: center;
-    }
-
-    /* Header Styling */
-    .header {
-      font-family: 'Cloister Black', serif; /* Medieval style font */
-      font-size: 2.5rem;
-      color: #7b3f00;
-      text-transform: uppercase;
-      text-shadow: 2px 2px 0px #dab974;
-      margin-bottom: 20px;
-    }
-
-    /* Decorative Line */
-    .decorative-line {
-      width: 60%;
-      height: 4px;
-      background: #7b3f00;
-      margin: 20px auto;
-      border-radius: 2px;
-    }
-
-    /* Body Text */
-    .content {
-      font-size: 1.2rem;
-      line-height: 1.8;
-      text-align: justify;
-    }
-
-    /* Red Wax Seal */
-    .seal {
-      margin-top: 40px;
-      width: 100px;
-      height: 100px;
-      background: #a30202;
-      border-radius: 50%;
-      box-shadow: inset 0 0 10px #680101, 0 0 10px rgba(0, 0, 0, 0.5);
-      position: relative;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* Signature under the seal */
-    .signature {
-      font-family: 'Great Vibes', cursive;
-      font-size: 1.5rem;
-      margin-top: 10px;
-      color: #7b3f00;
-    }
-
-    /* Wax Seal Imprint (Stylized Initials) */
-    .seal::before {
-      content: "P";
-      font-family: 'Cloister Black', serif;
-      font-size: 3rem;
-      color: #fff;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    /* Footer */
-    .footer {
-      margin-top: 30px;
-      font-size: 0.9rem;
-      font-style: italic;
-      color: #6b4b00;
-    }
-  </style>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epistola Papale</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Metamorphous&family=New+Rocker&display=swap" rel="stylesheet">
+    <style>
+  
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Metamorphous', serif;
+        background-color: #f4f1e3;
+        background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+        background-size: cover;
+        background-attachment: fixed;
+        color: #3b2f2f;
+      }
+  
+      /* Container Styling */
+      .container {
+        max-width: 800px;
+        margin: 50px auto;
+        background: rgba(255, 255, 255, 0.85);
+        padding: 30px;
+        border: 2px solid #c1a97e;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        text-align: center;
+      }
+  
+      /* Header Styling */
+      .header {
+        font-family: "New Rocker", serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 2.3rem;
+  
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+  
+      /* Decorative Line */
+      .decorative-line {
+        width: 60%;
+        height: 4px;
+        background: #7b3f00;
+        margin: 20px auto;
+        border-radius: 2px;
+      }
+  
+      /* Body Text */
+      .content {
+        font-size: medium;
+        /* line-height: 1.8;
+        text-align: justify; */
+      }
+  
+      /* Red Wax Seal */
+      .seal {
+        margin-top: 40px;
+        width: 100px;
+        height: 100px;
+        background: #a30202;
+        border-radius: 50%;
+        box-shadow: inset 0 0 10px #680101, 0 0 10px rgba(0, 0, 0, 0.5);
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+      }
+  
+      /* Signature under the seal */
+      .signature {
+        font-family: 'Great Vibes', cursive;
+        font-size: 1.5rem;
+        margin-top: 10px;
+        color: #7b3f00;
+      }
+  
+      /* Wax Seal Imprint (Stylized Initials) */
+      .seal::before {
+        content: "P";
+        font-family: 'Cloister Black', serif;
+        font-size: 3rem;
+        color: #fff;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+  
+      /* Footer */
+      .footer {
+        margin-top: 30px;
+        font-size: 0.9rem;
+        font-style: italic;
+        color: #6b4b00;
+      }
+    </style>
+  </head>
 <body>
   <div class="container">
     <!-- Header -->
@@ -141,7 +146,7 @@
     </div>
 
     <!-- Wax Seal -->
-    <img style="width:25%" src="..\..\Images\sigillo3D.png">
+    <img style="width:25%" src="cid:logo-image">
 
     <!-- Footer -->
     <div class="footer">Anno Domini MCDLXXVII</div>

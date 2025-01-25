@@ -9,7 +9,7 @@ public class TestMailer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MailController.RetrieveEmail();
+        //MailController.SendEmail("ronchi117@gmail.com","SCOMUNICA!",MessageHelper.GetMailTextScomunica("MATTIA"));
     }
 
     // Update is called once per frame
