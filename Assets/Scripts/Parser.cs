@@ -30,14 +30,31 @@ public class Parser
     {
         var split = Regex.Split(line, " ");
         string target = split[0];
-        
-        int amount = int.Parse(split[1]);
+        PlayerModel player = GameModel.FindPlayer(target);
+        if(player == null)
+        {
+            return 1;
+        }
+        int realAmount;
+        bool amountReal = int.TryParse(split[1], out realAmount) && realAmount>=0;
+        if(!amountReal)
+        {
+            return 1;
+        }
+
         string resource = split[2];
+        if(!player.Score.checkResourceName(resource))
+        {
+            return 1;
+        }
+        if (player.Score.enoughResource(resource, realAmount))
+        {
+            player.Score.addResource(resource, realAmount);
+        } else
+        {
+            return 1;
+        }
+        
         return 0;
-    }
-
-    private void ApplyTransaction(string target, int amount, string resource)
-    {
-
     }
 }
