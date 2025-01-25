@@ -1,18 +1,16 @@
 using MailKit;
 using MailKit.Net.Imap;
-using MailKit.Net.Smtp;
 using MailKit.Security;
 using System.Collections.Generic;
 using MimeKit;
 using MailKit.Search;
 using System.Text.RegularExpressions;
-using System;
-using System.IO;
+using System.Threading.Tasks;
 
 public static class MailController
     {
         
-        public static List<MailModel> RetrieveEmail()
+        /*public static List<MailModel> RetrieveEmail()
         {
             List<MailModel> emails = new List<MailModel>();
             using (var client = new ImapClient())
@@ -47,9 +45,56 @@ public static class MailController
                 client.Disconnect(true);
             }
             return emails;
-        }
+        }*/
 
-        public static void SendEmail(string to, string subject, string body)
+
+
+    public static async Task<List<MailModel>> RetrieveEmailAsync()
+    {
+        List<MailModel> emails = new List<MailModel>();
+
+        // Eseguiamo l'operazione in un task separato per evitare il blocco del thread principale
+        await Task.Run(() =>
+        {
+            using (var client = new ImapClient())
+            {
+                client.Connect("imap.gmail.com", 993, true);
+                client.Authenticate("papa.sisto.quarto@gmail.com", "zpac evik xmbc cdry");
+                var inbox = client.Inbox;
+
+                inbox.Open(FolderAccess.ReadWrite);
+
+                // Recupera solo i messaggi non letti
+                var uids = inbox.Search(SearchQuery.NotSeen);
+                foreach (var uid in uids)
+                {
+                    var message = inbox.GetMessage(uid);
+                    string pattern = @"<([^>]+)>";
+                    Match match = Regex.Match(message.From.ToString(), pattern);
+
+                    emails.Add(new MailModel
+                    {
+                        Subject = message.Subject,
+                        Body = message.TextBody,
+                        MailFrom = match.Groups[1].Value
+                    });
+
+                    // Segna il messaggio come visto
+                    inbox.AddFlags(uid, MessageFlags.Seen, true);
+                }
+
+                client.Disconnect(true);
+            }
+        });
+
+        return emails;
+    }
+
+
+
+
+
+public static void SendEmail(string to, string subject, string body)
         {
             using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
