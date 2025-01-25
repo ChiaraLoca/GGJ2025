@@ -48,9 +48,10 @@ namespace GameStatus
                 PlayerModel newPlayer = new PlayerModel();
                 newPlayer.Mail = mailModel.MailFrom;
                 newPlayer.Name = GetRandomName();
+                newPlayer.Quest = QuestController.GetRandomQuest();
                 Players.Add(newPlayer);
                 EventManager.Broadcast(new AddNewCantoneEvent(newPlayer));
-                MailController.SendEmail(newPlayer.Mail,"Epistola", MessageHelper.GetMailTextGameStart(newPlayer.Name));
+                MailController.SendEmail(newPlayer.Mail,"Epistola", MessageHelper.GetMailTextGameStart(newPlayer.Name,newPlayer.Quest.Description));
             }
                 
         }
