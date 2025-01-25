@@ -20,8 +20,8 @@ public static class MessageHelper
         try
         {
             string htmlContent = File.ReadAllText(LayoutInizioPath);
-            htmlContent.Replace("{{{PlayerName}}}", NomePlayer);
-            htmlContent.Replace("{{{OBIETTIVO}}}", Obiettivo);
+            htmlContent = htmlContent.Replace("{{{PlayerName}}}", NomePlayer);
+            htmlContent = htmlContent.Replace("{{{OBIETTIVO}}}", Obiettivo);
             return htmlContent;
         }
         catch (Exception ex)
@@ -36,13 +36,13 @@ public static class MessageHelper
         try
         {
             string htmlContent = File.ReadAllText(LayoutEstrattoConto);
-            htmlContent.Replace("{{{PlayerName}}}", player.Name);
-            htmlContent.Replace("{{{Horses}}}", player.Score.Horses.ToString());
-            htmlContent.Replace("{{{Coppers}}}", player.Score.Coppers.ToString());
-            htmlContent.Replace("{{{Iron}}}", player.Score.Irons.ToString());
-            htmlContent.Replace("{{{Wheat}}}", player.Score.Wheat.ToString());
-            htmlContent.Replace("{{{Salt}}}", player.Score.Salt.ToString());
-            htmlContent.Replace("{{{Errors}}}", getLayoutErrori(errors));
+            htmlContent = htmlContent.Replace("{{{PlayerName}}}", player.Name);
+            htmlContent = htmlContent.Replace("{{{Horses}}}", player.Score.Horses.ToString());
+            htmlContent = htmlContent.Replace("{{{Coppers}}}", player.Score.Coppers.ToString());
+            htmlContent = htmlContent.Replace("{{{Iron}}}", player.Score.Irons.ToString());
+            htmlContent = htmlContent.Replace("{{{Wheat}}}", player.Score.Wheat.ToString());
+            htmlContent = htmlContent.Replace("{{{Salt}}}", player.Score.Salt.ToString());
+            htmlContent = htmlContent.Replace("{{{Errors}}}", getLayoutErrori(errors));
             return htmlContent;
         }
         catch (Exception ex)
