@@ -37,6 +37,13 @@ public class Objective
 
 }
 
+public class MailModel
+{
+    public string Subject { get; set; }
+    public string Body { get; set; }
+    public string MailTo { get; set; }
+}
+
 public class GameModel
 {
     private static GameModel Instance;
