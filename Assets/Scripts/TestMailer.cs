@@ -9,13 +9,13 @@ public class TestMailer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MailController.Authenticate();
+        MailController.RetrieveEmail();
     }
 
     // Update is called once per frame
     void Update()
     {
-        StartCoroutine(Wait8SecondsAndSendMail());
+       // StartCoroutine(Wait8SecondsAndSendMail());
     }
 
     private IEnumerator Wait8SecondsAndSendMail()
@@ -24,7 +24,7 @@ public class TestMailer : MonoBehaviour
         yield return new WaitForSeconds(8);
         if(_repeate)
         {
-            MailController.SendEmail("jobbo994@gmail.com", "Test Mail", "This is a test mail from Unity");
+            MailController.RetrieveEmail();
             _repeate = false;   
         }
            

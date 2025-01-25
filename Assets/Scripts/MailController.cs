@@ -4,42 +4,38 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using System.Collections.Generic;
 using MimeKit;
+using MailKit.Search;
 
 
-    public static class MailController
+public static class MailController
     {
-        private static ImapClient _imapClient;
-        private static MailKit.Net.Smtp.SmtpClient _smtpClient;
-        public static void Authenticate()
-        {
-            using (var client = new ImapClient())
-            {
-                client.Connect("imap.gmail.com", 993, true);
-
-                client.Authenticate("papa.sisto.quarto@gmail.com", "zpac evik xmbc cdry");
-
-                _imapClient = client;
-            }
-            
-
-        }
+    
         public static List<MailModel> RetrieveEmail()
         {
             List<MailModel> emails = new List<MailModel>();
-            var inbox = _imapClient.Inbox;
-            inbox.Open(FolderAccess.ReadOnly);
-            //get only messages not opened
-            for (int i = 0; i < inbox.Count; i++)
+            using (var client = new ImapClient())
             {
-                var message = inbox.GetMessage(i);
-                emails.Add(new MailModel
+                client.Connect("imap.gmail.com", 993, true);
+                client.Authenticate("papa.sisto.quarto@gmail.com", "zpac evik xmbc cdry");
+                var inbox = client.Inbox;
+
+                inbox.Open(FolderAccess.ReadWrite);
+
+                // Retrieve only unread messages
+                var uids = inbox.Search(SearchQuery.NotSeen);
+                foreach (var uid in uids)
                 {
-                    Subject = message.Subject,
-                    Body = message.TextBody,
-                    MailTo = message.To.ToString()
-                });
-                //move the message in the folder "opened"
-                inbox.MoveTo(i, inbox.GetSubfolder("Opened"));
+                    var message = inbox.GetMessage(uid);
+                    emails.Add(new MailModel
+                    {
+                        Subject = message.Subject,
+                        Body = message.TextBody,
+                        MailTo = message.To.ToString()
+                    });
+                    inbox.AddFlags(uid, MessageFlags.Seen, true);
+
+                }
+                client.Disconnect(true);
             }
             return emails;
         }
@@ -61,7 +57,7 @@ using MimeKit;
                 };
                 client.Send(message);
                 client.Disconnect(true);
-        }
+            }
      
         }
 
