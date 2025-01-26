@@ -33,7 +33,7 @@ public class BanBolla : BollaModel
         List<int> indexes = new List<int>();
         for (int i = 0; i < resourceN; i++)
         {
-            int newIndex = Random.Range(0, GameModel.Risorse.Count + 1);
+            int newIndex = Random.Range(0, GameModel.Risorse.Count);
             if (!indexes.Contains(newIndex))
             {
                 indexes.Add(newIndex);
@@ -54,8 +54,8 @@ public class BanBolla : BollaModel
         this.mode = mode;
         for(int i=0; i<resources.Length; i++)
         {
-            resourceDescriptionString += resources[i];
-            if (i>0)
+            resourceDescriptionString += GameModel.DizionarioRisorse[resources[i]];
+            if (resources.Length>1 && i!= resources.Length-1)
             {
                 resourceDescriptionString += ",";
             }
@@ -83,13 +83,13 @@ public class BanBolla : BollaModel
                 switch (mode)
                 {
                     case 0:
-                        if (res.Value < amount)
+                        if (res.Value > amount)
                         {
                             return false;
                         };
                         break;
                     case 1:
-                        if (res.Value > amount)
+                        if (res.Value < amount)
                         {
                             return false;
                         }
