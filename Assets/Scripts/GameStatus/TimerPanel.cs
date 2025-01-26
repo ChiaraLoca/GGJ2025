@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using Utility.GameEventManager;
 
 namespace GameStatus
 {
@@ -26,6 +27,17 @@ namespace GameStatus
             string formattedTime = string.Format("{0:00}:{1:00}", minutes, seconds);
 
             time.text = formattedTime;
+        }
+
+        private void Awake()
+        {
+           
+            EventManager.AddListener<EndGameEvent>(OnEnd);
+        }
+
+        private void OnEnd(EndGameEvent @event)
+        {
+            Destroy(this.gameObject);
         }
     }
 }

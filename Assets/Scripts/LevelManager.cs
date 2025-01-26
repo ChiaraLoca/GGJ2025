@@ -31,12 +31,12 @@ public class LevelManager : MonoBehaviour
         GameModel.Init();
 
         AddCantoneLabelsPanel addCantoneLabelsPanel = Instantiate(addCantoneLabelsPanelPrefab, canvas);
+        
 
 
 
-
-        //StartCoroutine(CheckForNewMails());
-        //InvokeRepeating("CheckForNewMails", 1, secondsRefresh);
+        StartCoroutine(CheckForNewMails());
+        
 
         StartPanel startPanel = Instantiate(startPanelPrefab, canvas);
 
@@ -48,14 +48,19 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         EventManager.AddListener<StartEvent>(OnStart);
+        EventManager.AddListener<EndGameEvent>(OnEnd);
+    }
+
+    private void OnEnd(EndGameEvent evt)
+    {
+        StopAllCoroutines();
     }
 
     private void OnStart(StartEvent evt)
     {
         
        
-        CantoneLabelsPanel cantoneLabelsPanel = Instantiate(cantoneLabelsPanelPrefab, canvas);
-        cantoneLabelsPanel.Initialize();
+       
 
         ResourceLabelsPanel resourceLabelsPanel = Instantiate(resourceLabelsPanelPrefab, canvas);
         resourceLabelsPanel.Initialize(new List<string> { "Cavalli", "Rame", "Ferro","Grano","Sale" });
@@ -66,10 +71,8 @@ public class LevelManager : MonoBehaviour
         popeController.Initialize();
 
         StopAllCoroutines();
-        //CancelInvoke("CheckForNewMails");
-        //InvokeRepeating("CheckForGameEmail", 1, secondsRefresh);
 
-       // StartCoroutine(CheckForGameEmail());
+        StartCoroutine(CheckForGameEmail());
     }
 
 

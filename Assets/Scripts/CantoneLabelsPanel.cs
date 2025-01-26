@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameStatus;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Utility.GameEventManager;
@@ -12,6 +13,25 @@ public class CantoneLabelsPanel : MonoBehaviour
     private void Awake()
     {
         EventManager.AddListener<ScomunicaEvent>(OnScomunica);
+        EventManager.AddListener<EndGameEvent>(OnEnd);
+    }
+
+    private void OnEnd(EndGameEvent evt)
+    {
+        foreach (Transform child in labelsParent)
+        {
+
+            CantoneLabel cantoneLabel = child.GetComponent<CantoneLabel>();
+            foreach (var item in evt.score)
+            {
+                if (item.player.Equals(cantoneLabel.GetPlayer()))
+                {
+                    cantoneLabel.Win(item.good);
+                }
+
+                
+            }
+        }
     }
 
     private void OnScomunica(ScomunicaEvent evt)

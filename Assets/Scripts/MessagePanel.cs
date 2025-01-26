@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameStatus;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor.VersionControl;
@@ -18,6 +19,7 @@ public class MessagePanel : MonoBehaviour
     private void Start()
     {
         EventManager.AddListener<AddMessageEvent>(OnAddMessage);
+        EventManager.AddListener<EndGameEvent>(OnEnd);
 
         InvokeRepeating("ShowMessage", 5, 15);
     }
@@ -38,7 +40,12 @@ public class MessagePanel : MonoBehaviour
             messageContentPanel.transform.SetAsFirstSibling();
         }
     }
-   
+
+    private void OnEnd(EndGameEvent @event)
+    {
+        Destroy(this.gameObject);
+    }
+
 }
 
 public class AddMessageEvent : IGameEvent
