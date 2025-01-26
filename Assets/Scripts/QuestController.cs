@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class QuestController 
 {
-    private static List<Quest> QuestList = InitializeQuestList();
+    private static List<Quest> QuestList;
 
     
     public static bool Check(PlayerModel player, List<PlayerModel> players)
@@ -38,7 +38,7 @@ public static class QuestController
         };
     }   
 
-    private static List<Quest> InitializeQuestList()
+    public static List<Quest> InitializeQuestList()
     {
         var QuestList = new List<Quest>();
         QuestList.AddRange(AddQuestMoreOfAKind());

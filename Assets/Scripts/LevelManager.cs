@@ -74,6 +74,7 @@ public class LevelManager : MonoBehaviour
         CancelInvoke("CheckForNewMails");
 
         SetPlayerResources();
+        QuestController.InitializeQuestList();
 
         ResourceLabelsPanel resourceLabelsPanel = Instantiate(resourceLabelsPanelPrefab, canvas);
         resourceLabelsPanel.Initialize(GameModel.Risorse.Select(obj=>obj.Description).ToList());
@@ -97,12 +98,17 @@ public class LevelManager : MonoBehaviour
     { var players = GameStatusManager.instance.Players.Count;
         if (players <= 3)
         {
-            GameModel.Risorse = GameModel.Risorse.GetRange(0, 3);
+            GameModel.Risorse = GameModel.Risorse.GetRange(0, 2);
             return;
         }
         if(players <= 5)
         {
-            GameModel.Risorse = GameModel.Risorse.GetRange(0,4);
+            GameModel.Risorse = GameModel.Risorse.GetRange(0,3);
+            return;
+        }
+        if (players <= 7)
+        {
+            GameModel.Risorse = GameModel.Risorse.GetRange(0, 4);
             return;
         }
         return;
