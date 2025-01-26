@@ -72,7 +72,7 @@ public class LevelManager : MonoBehaviour
     {
         while (true)
         {
-            yield return StartCoroutine(MailController.RunRetrieveEmailAsyncAsCoroutine());
+           
             List<MailModel> mails = MailController.GetRetrievedEmailList();
             Debug.Log("CheckForNewMails " + string.Join(", ", mails));
 
@@ -88,7 +88,7 @@ public class LevelManager : MonoBehaviour
     {
         while (true)
         {
-            yield return StartCoroutine(MailController.RunRetrieveEmailAsyncAsCoroutine());
+            
             List<MailModel> mails = MailController.GetRetrievedEmailList();
             Debug.Log("CheckForGameEmail " + string.Join(", ", mails));
 
