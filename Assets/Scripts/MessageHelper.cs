@@ -28,7 +28,7 @@ public static class MessageHelper
             htmlContent = htmlContent.Replace("{{{OBIETTIVO}}}", Obiettivo);
             foreach (var item in GameModel.Risorse)
             {
-                htmlContent = htmlContent.Replace("{{{"+ item.Type + "}}}", "<li>"+ item.Description +"</li>");
+                htmlContent = htmlContent.Replace("{{{"+ item.Type + "}}}", "<li>100 "+ item.Description +"</li>");
               
             }
             htmlContent = Regex.Replace(htmlContent, @"({{{[^>]+}}})", "");
