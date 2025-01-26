@@ -12,6 +12,7 @@ public class CantoneLabelsPanel : MonoBehaviour
 
     private void Awake()
     {
+        EventManager.AddListener<AddNewCantoneEvent>(OnAddNewCantone);
         EventManager.AddListener<ScomunicaEvent>(OnScomunica);
         EventManager.AddListener<EndGameEvent>(OnEnd);
     }
@@ -47,15 +48,12 @@ public class CantoneLabelsPanel : MonoBehaviour
         }
     }
 
-    public void Initialize()
+
+    private void OnAddNewCantone(AddNewCantoneEvent evt)
     {
-        foreach (PlayerModel player in GameStatus.GameStatusManager.instance.Players)
-        {
-            CantoneLabel label = Instantiate(cantoneLabelPrefab, labelsParent);
-            label.Initialize(player);
-            _cantoneLabels.Add(label);
-            label.SetLabel(player.Name);
-        }
+        CantoneLabel cantoneLabel = Instantiate(cantoneLabelPrefab, labelsParent);
+        cantoneLabel.Initialize(evt.playerModel);
+        
     }
 }
 
