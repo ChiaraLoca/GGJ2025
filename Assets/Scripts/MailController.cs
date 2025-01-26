@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Collections;
 using UnityEngine;
+using System;
 
 public class MailController : MonoBehaviour
 {
@@ -30,8 +31,8 @@ public class MailController : MonoBehaviour
             // Esegui il metodo per ricevere le email
             yield return TaskToCoroutine(RetrieveEmailAsync());
 
-            // Attendi 2 secondi prima di eseguire nuovamente
-            yield return new WaitForSeconds(2);
+            //// Attendi 2 secondi prima di eseguire nuovamente
+            yield return new WaitForSeconds(1);
         }
     }
 
@@ -64,17 +65,21 @@ public class MailController : MonoBehaviour
     {
         retrievedEmailList = new List<MailModel>();
 
-        // Eseguiamo l'operazione in un task separato per evitare il blocco del thread principale
-        await Task.Run(() =>
+        try
         {
+            if(client.IsAuthenticated == false)
+            {
+                await ConnectAndAuthenticateAsync();
+            }
             var inbox = client.Inbox;
-            inbox.Open(FolderAccess.ReadWrite);
-
+            await inbox.OpenAsync(FolderAccess.ReadWrite);
+            
             // Recupera solo i messaggi non letti
-            var uids = inbox.Search(SearchQuery.NotSeen);
+            var uids = await inbox.SearchAsync(SearchQuery.NotSeen);
+            Debug.Log(uids.Count);
             foreach (var uid in uids)
             {
-                var message = inbox.GetMessage(uid);
+                var message = await inbox.GetMessageAsync(uid);
                 string pattern = @"<([^>]+)>";
                 Match match = Regex.Match(message.From.ToString(), pattern);
 
@@ -86,17 +91,48 @@ public class MailController : MonoBehaviour
                 });
 
                 // Segna il messaggio come visto
-                inbox.AddFlags(uid, MessageFlags.Seen, true);
+                await inbox.AddFlagsAsync(uid, MessageFlags.Seen, true);
             }
-        });
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Errore durante la lettura delle email: " + ex.Message);
+        }
     }
 
-    public static void SendEmail(string to, string subject, string body)
+
+    //public static void SendEmail(string to, string subject, string body)
+    //{
+    //    using (var client = new MailKit.Net.Smtp.SmtpClient())
+    //    {
+    //        client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+    //        client.Authenticate("papa.sisto.quarto@gmail.com", "zpac evik xmbc cdry");
+    //        var message = new MimeMessage();
+    //        message.From.Add(new MailboxAddress("Papa Sisto IV", "papa.sisto.quarto@gmail.com"));
+    //        message.To.Add(new MailboxAddress("", to));
+    //        message.Subject = subject;
+
+    //        var bodyBuilder = new BodyBuilder
+    //        {
+    //            HtmlBody = body
+    //        };
+    //        var logoPath = "Assets/Images/sigillo3D.png"; // Path relativo o assoluto dell'immagine
+    //        var logo = bodyBuilder.LinkedResources.Add(logoPath);
+    //        logo.ContentId = "logo-image"; // Deve corrispondere al CID specificato nell'HTML
+    //        logo.ContentDisposition = new ContentDisposition(ContentDisposition.Inline);
+    //        logo.ContentType.MediaType = "image";
+    //        logo.ContentType.MediaSubtype = "png";
+    //        message.Body = bodyBuilder.ToMessageBody();
+    //        client.Send(message);
+    //        client.Disconnect(true);
+    //    }
+    //}
+    public static async Task SendEmail(string to, string subject, string body)
     {
         using (var client = new MailKit.Net.Smtp.SmtpClient())
         {
-            client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-            client.Authenticate("papa.sisto.quarto@gmail.com", "zpac evik xmbc cdry");
+            await client.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+            await client.AuthenticateAsync("papa.sisto.quarto@gmail.com", "zpac evik xmbc cdry");
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Papa Sisto IV", "papa.sisto.quarto@gmail.com"));
             message.To.Add(new MailboxAddress("", to));
@@ -113,9 +149,14 @@ public class MailController : MonoBehaviour
             logo.ContentType.MediaType = "image";
             logo.ContentType.MediaSubtype = "png";
             message.Body = bodyBuilder.ToMessageBody();
-            client.Send(message);
-            client.Disconnect(true);
+            await client.SendAsync(message);
+            await client.DisconnectAsync(true);
         }
+    }
+
+    public static void SendEmailAsync(string to, string subject, string body)
+    {
+        TaskToCoroutine(SendEmail(to, subject, body));
     }
 
     void OnDestroy()

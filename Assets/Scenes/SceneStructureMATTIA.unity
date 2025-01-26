@@ -352,7 +352,7 @@ MonoBehaviour:
   resourceLabelsPanelPrefab: {fileID: 7029374253428084452, guid: 8c90ec595259b9f429ceaab569f14a11, type: 3}
   messagePanelPrefab: {fileID: 7812516422010685890, guid: b8b4dc5fc6c8c4142be9d5259aa94800, type: 3}
   popeControllerPrefab: {fileID: 4696136828969319256, guid: e290e890d71cb8f4796b0cf133e9b7c1, type: 3}
-  secondsRefresh: 8
+  secondsRefresh: 1
 --- !u!4 &952994184
 Transform:
   m_ObjectHideFlags: 0

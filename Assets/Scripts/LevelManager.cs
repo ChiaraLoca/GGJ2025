@@ -98,7 +98,7 @@ public class LevelManager : MonoBehaviour
                 if (p.Scomunica)
                     continue;
                 int errors = Parser.Parse(mail.Body, p);
-                MailController.SendEmail(mail.MailFrom, "Epistola", MessageHelper.GetMailTextEstrattoConto(p, errors));
+                MailController.SendEmailAsync(mail.MailFrom, "Epistola", MessageHelper.GetMailTextEstrattoConto(p, errors));
 
             }
 
