@@ -65,13 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Bolla Papale di Sua Santit\xE0 Sisto IV<br>Anno del Signore 1476<br>Noi,
-    Sisto IV, per l'autorit\xE0 che ci \xE8 conferita dalla Santa Sede,\ndecretiamo
-    con il nostro potere divino che, a partire dalla data di pubblicazione della
-    presente, ogni missiva commerciale potr\xE0 trattare<b>  mode == 0 ?  almeno
-    al massimo )amount  tipi di risorse<b> \nQuesto decreto si applica in tutte le
-    terre sotto la nostra giurisdizione e <u>rimarr\xE0 in vigore</u> fino a nuova
-    disposizione.<br>"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

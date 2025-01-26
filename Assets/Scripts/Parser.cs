@@ -38,7 +38,7 @@ public static class Parser
 
     private static string cleanInput(string rawText)
     {
-        return rawText.Split("<")[0]
+        return rawText.Split("<")[0];
     }
 
     private static int ParseLine(string line, List<Transaction> transactions, PlayerModel mittente)

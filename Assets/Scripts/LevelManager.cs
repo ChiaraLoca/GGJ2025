@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Utility.GameEventManager;
 
@@ -61,8 +62,7 @@ public class LevelManager : MonoBehaviour
        
        
 
-        ResourceLabelsPanel resourceLabelsPanel = Instantiate(resourceLabelsPanelPrefab, canvas);
-        resourceLabelsPanel.Initialize(new List<string> { "Cavalli", "Rame", "Ferro","Grano","Sale" });
+        
 
         MessagePanel messagePanel = Instantiate(messagePanelPrefab, canvas);
 
@@ -71,7 +71,12 @@ public class LevelManager : MonoBehaviour
 
         StopAllCoroutines();
         CancelInvoke("CheckForNewMails");
+
         SetPlayerResources();
+
+        ResourceLabelsPanel resourceLabelsPanel = Instantiate(resourceLabelsPanelPrefab, canvas);
+        resourceLabelsPanel.Initialize(GameModel.Risorse.Select(obj=>obj.Description).ToList());
+
         SendPlayerQuests();
         InvokeRepeating("CheckForGameEmail", 1, secondsRefresh);
         StartCoroutine(CheckForGameEmail());
@@ -90,12 +95,12 @@ public class LevelManager : MonoBehaviour
     { var players = GameStatusManager.instance.Players.Count;
         if (players <= 3)
         {
-            GameModel.Risorse = GameModel.Risorse.GetRange(0, 3);
+            GameModel.Risorse = GameModel.Risorse.GetRange(0, 4);
             return;
         }
         if(players <= 5)
         {
-            GameModel.Risorse = GameModel.Risorse.GetRange(0,4);
+            GameModel.Risorse = GameModel.Risorse.GetRange(0,5);
             return;
         }
         return;
