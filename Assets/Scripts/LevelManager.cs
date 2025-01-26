@@ -133,8 +133,8 @@ public class LevelManager : MonoBehaviour
                 PlayerModel p = GameStatusManager.instance.FindPlayerByMail(mail.MailFrom);
                 if (p.Scomunica)
                     continue;
-                int errors = Parser.Parse(mail.Body, p);
-                MailController.SendEmailAsync(mail.MailFrom, "Epistola " + GameStatus.GameStatusManager._gameUID, MessageHelper.GetMailTextEstrattoConto(p, errors));
+                int righeEseguite = Parser.Parse(mail.Body, p);
+                MailController.SendEmailAsync(mail.MailFrom, "Epistola " + GameStatus.GameStatusManager._gameUID, MessageHelper.GetMailTextEstrattoConto(p, righeEseguite));
 
             }
 

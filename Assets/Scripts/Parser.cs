@@ -24,21 +24,21 @@ public static class Parser
         string text = cleanInput(rawText);
         var transactionText = Regex.Split(text, "\r\n|\r|\n");
         List<Transaction> transactions = new List<Transaction>();
-        int errors = 0;
+        int righeEseguite = 0;
         foreach(string line in transactionText)
         {
-            errors += ParseLine(line, transactions, mittente);
+            righeEseguite += ParseLine(line, transactions, mittente);
         }
         if (!GameModel.checkBolle(transactions))
         {
             EventManager.Broadcast(new ScomunicaEvent(mittente));
         }
-        return errors;
+        return righeEseguite;
     }
 
     private static string cleanInput(string rawText)
     {
-        return rawText.Split("<")[0]
+        return rawText.Split("<")[0];
     }
 
     private static int ParseLine(string line, List<Transaction> transactions, PlayerModel mittente)
@@ -48,13 +48,13 @@ public static class Parser
         PlayerModel player = GameStatusManager.instance.FindPlayer(target);
         if(player == null)
         {
-            return 1;
+            return 0;
         }
         int realAmount;
         bool amountReal = int.TryParse(split[1], out realAmount) && realAmount>=0;
         if(!amountReal)
         {
-            return 1;
+            return 0;
         }
 
         string resource = split[2];
@@ -63,7 +63,7 @@ public static class Parser
 
         if(realResource == null)
         {
-            return 1;
+            return 0;
         }
 
         if (player.Score.enoughResource(realResource, realAmount))
@@ -73,10 +73,10 @@ public static class Parser
         } 
         else
         {
-            return 1;
+            return 0;
         }
         transactions.Add(new Transaction(player, realAmount, realResource));
-        return 0;
+        return 1;
     }
 }
 
