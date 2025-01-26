@@ -1,4 +1,6 @@
+using GameStatus;
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +14,12 @@ public class BollaBoardPanel : MonoBehaviour
     private void Awake()
     {
         EventManager.AddListener<AddBollaToBoardEvent>(OnAddBollaToBoard);
+        EventManager.AddListener<EndGameEvent>(OnEnd);
+    }
+
+    private void OnEnd(EndGameEvent evt)
+    {
+        Destroy(gameObject);
     }
 
     public void OnAddBollaToBoard(AddBollaToBoardEvent evt)
@@ -19,6 +27,8 @@ public class BollaBoardPanel : MonoBehaviour
         BollaBoardLabel bollaBoardLabel = Instantiate(_boardLabelPrefab, transformParent);
         bollaBoardLabel.Initialize(evt.BollaModel);
     }
+
+    
 }
 public class AddBollaToBoardEvent : IGameEvent
 {
