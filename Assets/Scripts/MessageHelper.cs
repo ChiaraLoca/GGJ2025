@@ -28,7 +28,7 @@ public static class MessageHelper
             htmlContent = htmlContent.Replace("{{{OBIETTIVO}}}", Obiettivo);
             foreach (var item in GameModel.Risorse)
             {
-                htmlContent = htmlContent.Replace("{{{"+ item.Type + "}}}", "<li>"+ item.Description +"</li>");
+                htmlContent = htmlContent.Replace("{{{"+ item.Type + "}}}", "<li>100 "+ item.Description +"</li>");
               
             }
             htmlContent = Regex.Replace(htmlContent, @"({{{[^>]+}}})", "");
@@ -57,7 +57,7 @@ public static class MessageHelper
         }
     }
 
-    public static string GetMailTextEstrattoConto(PlayerModel player, int errors)
+    public static string GetMailTextEstrattoConto(PlayerModel player, int righeEseguite)
     {
         try
         {
@@ -68,7 +68,7 @@ public static class MessageHelper
                 htmlContent = htmlContent.Replace("{{{"+item.Type +"}}}",
                    " <p><b>"+ item.Description+":</b>"+ player.Score.getResource(item.Type).ToString() + "</p>" );
             }
-            htmlContent = htmlContent.Replace("{{{Errors}}}", getLayoutErrori(errors));
+            htmlContent = htmlContent.Replace("{{{Eseguite}}}", getLayoutRigheEseguite(righeEseguite));
             htmlContent = Regex.Replace(htmlContent, @"({{{[^>]+}}})", "");
             return htmlContent;
         }
@@ -79,13 +79,13 @@ public static class MessageHelper
         }
     }
 
-    private static string getLayoutErrori(int errors)
+    private static string getLayoutRigheEseguite(int righeEseguite)
     {
-        if (errors == 0)
+        if (righeEseguite == 0)
         {
             return "";
         }
-        return File.ReadAllText(LayoutPartialErrors).Replace("{{{Errors}}}", errors.ToString());
+        return File.ReadAllText(LayoutPartialErrors).Replace("{{{Eseguite}}}", righeEseguite.ToString());
     }
 
     public static string GetMailTextScomunica(string NomePlayer)
