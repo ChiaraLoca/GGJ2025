@@ -74,6 +74,7 @@ public class LevelManager : MonoBehaviour
         CancelInvoke("CheckForNewMails");
 
         SetPlayerResources();
+        QuestController.InitializeQuestList();
 
         ResourceLabelsPanel resourceLabelsPanel = Instantiate(resourceLabelsPanelPrefab, canvas);
         resourceLabelsPanel.Initialize(GameModel.Risorse.Select(obj=>obj.Description).ToList());
