@@ -2,23 +2,13 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utility.GameEventManager;
 
 namespace GameStatus
 {
-    //public class ScoreManager
-    //{
-    //    public static int score;
-    //    public static int death;
-    //    public static int miss;
-
-    //    internal static void Initialize()
-    //    {
-    //        score = 0; death = 0; miss = 0;
-    //    }
-    //}
 
     public class GameStatusManager : MonoBehaviour
     {
@@ -26,10 +16,14 @@ namespace GameStatus
      
         [SerializeField] private float _maxSeconds;
         [SerializeField] private float _currentSeconds;
+        public TimerPanel _timerPanelPrefab;
+        public TimerPanel _timerPanel;
+        public Transform canvasParent;
         public List<PlayerModel> Players = new List<PlayerModel>();
         private bool _gameRunning = false;
+        private bool _timerRun = false;
+        public static string _gameUID;
 
-       
 
         public PlayerModel FindPlayer(string name)
         {
@@ -52,9 +46,9 @@ namespace GameStatus
                 newPlayer.Score = new Score();
                 Players.Add(newPlayer);
                 EventManager.Broadcast(new AddNewCantoneEvent(newPlayer));
-                MailController.SendEmail(newPlayer.Mail,"Epistola", MessageHelper.GetMailTextGameStart(newPlayer.Name,newPlayer.Quest.Description));
+                MailController.SendEmailAsync(newPlayer.Mail,"Epistola " + _gameUID, MessageHelper.GetMailTextGameStart(newPlayer.Name,newPlayer.Quest.Description));
             }
-                
+
         }
 
         public string GetRandomName()
@@ -69,30 +63,43 @@ namespace GameStatus
         private void Awake()
         {
             instance = this;
+
+            EventManager.AddListener<StartEvent>(StartTimer);
+        }
+
+        
+
+        private void StartTimer(StartEvent evt)
+        {
+            
+            _timerRun=true;
+
+            _timerPanel = Instantiate(_timerPanelPrefab, canvasParent);
+            
         }
 
         private void Update()
         {
-            if (_gameRunning)
+            if (_timerRun)
             {
-               /* _currentSeconds += Time.deltaTime;
-                TimerUI.instance.UpdateUI(_maxSeconds - _currentSeconds);
+                _currentSeconds += Time.deltaTime;
+                _timerPanel.SetTimer(Mathf.RoundToInt(_maxSeconds - _currentSeconds));
                 if (_currentSeconds >= _maxSeconds)
                 {
                     EndGame();
-                }*/
+                }
 
             }
 
 
         }
 
-        public void Start()
+
+        private void Start()
         {
             StartGame();
         }
 
-       
         public void StartGame()
         {
 
@@ -100,6 +107,7 @@ namespace GameStatus
             _currentSeconds = 0;
             //TODO LEVEL START 
             _gameRunning = true;
+            _gameUID = ConvertDateToRoman( DateTime.Now);
         }
         public void EndGame()
         {
@@ -115,10 +123,10 @@ namespace GameStatus
             {
                 if (QuestController.Check(player, instance.Players))
                 {
-                    MailController.SendEmail(player.Mail, "La sua gratitudine è stata Ricompensata", MessageHelper.GetMailTextVittoria(player.Name));
+                    MailController.SendEmailAsync(player.Mail, "La sua gratitudine è stata Ricompensata", MessageHelper.GetMailTextVittoria(player.Name));
                     continue;
                 }
-                MailController.SendEmail(player.Mail, "Dilectis in Christo filiis, salutem et apostolicam benedictionem", MessageHelper.GetMailTextSconfitta(player.Name));
+                MailController.SendEmailAsync(player.Mail, "Dilectis in Christo filiis, salutem et apostolicam benedictionem", MessageHelper.GetMailTextSconfitta(player.Name));
      
 
             }
@@ -127,6 +135,36 @@ namespace GameStatus
         public void Scomunica(PlayerModel player)
         {
             player.Scomunica = true;
+        }
+
+        private static readonly string[] RomanThousands = { "", "M", "MM", "MMM" };
+        private static readonly string[] RomanHundreds = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" };
+        private static readonly string[] RomanTens = { "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" };
+        private static readonly string[] RomanOnes = { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
+
+        public static string ConvertDateToRoman(DateTime date)
+        {
+            StringBuilder romanDate = new StringBuilder();
+
+            romanDate.Append(ConvertToRoman(date.Day));
+            romanDate.Append("·");
+            romanDate.Append(ConvertToRoman(date.Month));
+            romanDate.Append("·");
+            romanDate.Append(ConvertToRoman(date.Year));
+            romanDate.Append(" HORAE");
+            romanDate.Append(ConvertToRoman(date.Hour));
+            romanDate.Append(":");
+            romanDate.Append(ConvertToRoman(date.Minute));
+
+            return romanDate.ToString();
+        }
+
+        private static string ConvertToRoman(int number)
+        {
+            return RomanThousands[number / 1000] +
+                   RomanHundreds[(number % 1000) / 100] +
+                   RomanTens[(number % 100) / 10] +
+                   RomanOnes[number % 10];
         }
 
     }

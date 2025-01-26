@@ -8,6 +8,8 @@ using Utility.GameEventManager;
 
 public class LevelManager : MonoBehaviour
 {
+
+
     public Transform canvas;
     public StartPanel startPanelPrefab;
     public AddCantoneLabelsPanel addCantoneLabelsPanelPrefab;
@@ -16,7 +18,7 @@ public class LevelManager : MonoBehaviour
     public MessagePanel messagePanelPrefab;
     public PopeController popeControllerPrefab;
 
-    [SerializeField] int secondsRefresh = 4;
+    [SerializeField] int secondsRefresh = 1;
 
 
     private void Start()
@@ -33,13 +35,15 @@ public class LevelManager : MonoBehaviour
 
 
 
-        StartCoroutine(CheckForNewMails());
+        //StartCoroutine(CheckForNewMails());
         //InvokeRepeating("CheckForNewMails", 1, secondsRefresh);
 
         StartPanel startPanel = Instantiate(startPanelPrefab, canvas);
 
        
     }
+
+    
 
     private void Awake()
     {
@@ -64,7 +68,8 @@ public class LevelManager : MonoBehaviour
         StopAllCoroutines();
         //CancelInvoke("CheckForNewMails");
         //InvokeRepeating("CheckForGameEmail", 1, secondsRefresh);
-        StartCoroutine(CheckForGameEmail());
+
+       // StartCoroutine(CheckForGameEmail());
     }
 
 
@@ -72,7 +77,7 @@ public class LevelManager : MonoBehaviour
     {
         while (true)
         {
-            yield return StartCoroutine(MailController.RunRetrieveEmailAsyncAsCoroutine());
+           
             List<MailModel> mails = MailController.GetRetrievedEmailList();
             Debug.Log("CheckForNewMails " + string.Join(", ", mails));
 
@@ -88,7 +93,7 @@ public class LevelManager : MonoBehaviour
     {
         while (true)
         {
-            yield return StartCoroutine(MailController.RunRetrieveEmailAsyncAsCoroutine());
+            
             List<MailModel> mails = MailController.GetRetrievedEmailList();
             Debug.Log("CheckForGameEmail " + string.Join(", ", mails));
 
@@ -98,7 +103,7 @@ public class LevelManager : MonoBehaviour
                 if (p.Scomunica)
                     continue;
                 int errors = Parser.Parse(mail.Body, p);
-                MailController.SendEmail(mail.MailFrom, "Epistola", MessageHelper.GetMailTextEstrattoConto(p, errors));
+                MailController.SendEmailAsync(mail.MailFrom, "Epistola " + GameStatus.GameStatusManager._gameUID, MessageHelper.GetMailTextEstrattoConto(p, errors));
 
             }
 
