@@ -16,7 +16,7 @@ public class LevelManager : MonoBehaviour
     public MessagePanel messagePanelPrefab;
     public PopeController popeControllerPrefab;
 
-    [SerializeField] int secondsRefresh = 4;
+    [SerializeField] int secondsRefresh = 1;
 
 
     private void Start()
@@ -98,7 +98,7 @@ public class LevelManager : MonoBehaviour
                 if (p.Scomunica)
                     continue;
                 int errors = Parser.Parse(mail.Body, p);
-                MailController.SendEmailAsync(mail.MailFrom, "Epistola", MessageHelper.GetMailTextEstrattoConto(p, errors));
+                MailController.SendEmailAsync(mail.MailFrom, "Epistola " + GameStatus.GameStatusManager._gameUID, MessageHelper.GetMailTextEstrattoConto(p, errors));
 
             }
 
