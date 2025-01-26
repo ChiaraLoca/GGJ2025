@@ -62,7 +62,8 @@ public static class MessageHelper
             htmlContent = htmlContent.Replace("{{{PlayerName}}}", player.Name);
             foreach (var item in GameModel.Risorse)
             {
-                htmlContent = htmlContent.Replace("{{{"+item.Type +"}}}", player.Score.getResource(item.Type).ToString());
+                htmlContent = htmlContent.Replace("{{{"+item.Type +"}}}",
+                   " <p><b>"+ item.Description+":</b>"+ player.Score.getResource(item.Type).ToString() + "</p>" );
             }
             htmlContent = htmlContent.Replace("{{{Errors}}}", getLayoutErrori(errors));
             return htmlContent;
