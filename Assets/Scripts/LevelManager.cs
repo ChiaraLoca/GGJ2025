@@ -30,7 +30,7 @@ public class LevelManager : MonoBehaviour
     public void Initialzie()
     {
         GameModel.Init();
-
+      //  AudioManager.instance.Track(1, true);
         //AddCantoneLabelsPanel addCantoneLabelsPanel = Instantiate(addCantoneLabelsPanelPrefab, canvas);
 
         CantoneLabelsPanel cantoneLabelsPanel = Instantiate(cantoneLabelsPanelPrefab, canvas);
@@ -58,11 +58,6 @@ public class LevelManager : MonoBehaviour
 
     private void OnStart(StartEvent evt)
     {
-        
-       
-       
-
-        
 
         MessagePanel messagePanel = Instantiate(messagePanelPrefab, canvas);
 
@@ -76,6 +71,7 @@ public class LevelManager : MonoBehaviour
 
         ResourceLabelsPanel resourceLabelsPanel = Instantiate(resourceLabelsPanelPrefab, canvas);
         resourceLabelsPanel.Initialize(GameModel.Risorse.Select(obj=>obj.Description).ToList());
+        
 
         SendPlayerQuests();
         InvokeRepeating("CheckForGameEmail", 1, secondsRefresh);
@@ -119,6 +115,7 @@ public class LevelManager : MonoBehaviour
             foreach (MailModel mail in mails)
             {
                 GameStatus.GameStatusManager.instance.AddPlayer(mail);
+
             }
             yield return new WaitForSeconds(secondsRefresh);
         }

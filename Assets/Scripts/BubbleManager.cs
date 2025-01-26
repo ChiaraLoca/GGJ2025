@@ -38,7 +38,7 @@ public class BubbleManager : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         BollaModel bollaModel = GetRandomBolla();
-
+        
 
         BollaPanel bollaPanel = Instantiate(BollaPanelPrefab, canvasTransform);
         bollaPanel.Initialize(bollaModel.getDescription());

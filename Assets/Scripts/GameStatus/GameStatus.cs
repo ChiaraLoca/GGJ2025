@@ -103,7 +103,7 @@ namespace GameStatus
         public void StartGame()
         {
 
-          //  AudioManager.instance.track(2, false); TODO AUDIOMANAGER
+           
             _currentSeconds = 0;
             //TODO LEVEL START 
             _gameRunning = true;
