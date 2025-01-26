@@ -30,4 +30,10 @@ public class CantoneLabel : MonoBehaviour
     {
         image.color = disabledColor;
     }
+
+    internal void Win(bool good)
+    {
+        if (!good)
+            Destroy(gameObject);
+    }
 }

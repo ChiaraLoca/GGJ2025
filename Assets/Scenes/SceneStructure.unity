@@ -341,6 +341,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3293834873953211737, guid: a464022f13b63524ba1120703fbebaff, type: 3}
+      propertyPath: m_PlaybackSpeed
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 5921493732210018087, guid: a464022f13b63524ba1120703fbebaff, type: 3}
       propertyPath: m_Name
       value: VideoController
@@ -423,6 +427,10 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 889603813}
+    - target: {fileID: 306812341549341132, guid: 5d2a2138423f9b1418eea2114ba12313, type: 3}
+      propertyPath: secondsRefresh
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5422644476324416352, guid: 5d2a2138423f9b1418eea2114ba12313, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -594,6 +602,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 928771699888016308, guid: 46799902947fd564890efeecaf102bdc, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1096333057593933296, guid: 46799902947fd564890efeecaf102bdc, type: 3}
       propertyPath: m_Name
       value: GameStatus
@@ -637,6 +649,10 @@ PrefabInstance:
     - target: {fileID: 6170083189385647773, guid: 46799902947fd564890efeecaf102bdc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6473477605597120418, guid: 46799902947fd564890efeecaf102bdc, type: 3}
+      propertyPath: _maxSeconds
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 6473477605597120418, guid: 46799902947fd564890efeecaf102bdc, type: 3}
       propertyPath: canvasParent

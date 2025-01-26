@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6170083189385647773}
   - component: {fileID: 6473477605597120418}
+  - component: {fileID: 928771699888016308}
   m_Layer: 0
   m_Name: GameStatus
   m_TagString: Untagged
@@ -47,5 +48,16 @@ MonoBehaviour:
   _maxSeconds: 300
   _currentSeconds: 0
   _timerPanelPrefab: {fileID: 3278013243750335909, guid: e3711f1487fac2d44bb3ea0ee2cd75e9, type: 3}
-  _timerPanel: {fileID: 0}
   canvasParent: {fileID: 0}
+--- !u!114 &928771699888016308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096333057593933296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc53421bc2e8e74fa6bb6062ecaaebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

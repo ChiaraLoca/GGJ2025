@@ -17,7 +17,7 @@ namespace GameStatus
         [SerializeField] private float _maxSeconds;
         [SerializeField] private float _currentSeconds;
         public TimerPanel _timerPanelPrefab;
-        public TimerPanel _timerPanel;
+        private TimerPanel _timerPanel;
         public Transform canvasParent;
         public List<PlayerModel> Players = new List<PlayerModel>();
         private bool _gameRunning = false;
@@ -111,7 +111,7 @@ namespace GameStatus
         }
         public void EndGame()
         {
-
+            _timerRun = false;
             CaclculateScore();
             _gameRunning = false;
           //  SceneManager.LoadScene("2_Final_Demo");
@@ -119,19 +119,29 @@ namespace GameStatus
 
         private static void CaclculateScore()
         {
+            List<(PlayerModel player, bool good)> score = new List<(PlayerModel, bool)>();
+
             foreach (PlayerModel player in instance.Players)
             {
                 if (QuestController.Check(player, instance.Players))
                 {
                     MailController.SendEmailAsync(player.Mail, "La sua gratitudine è stata Ricompensata", MessageHelper.GetMailTextVittoria(player.Name));
+
+                    score.Add((player, true));
+
                     continue;
                 }
+
+                score.Add((player, false));
+
                 MailController.SendEmailAsync(player.Mail, "Dilectis in Christo filiis, salutem et apostolicam benedictionem", MessageHelper.GetMailTextSconfitta(player.Name));
-     
+            
 
             }
-        }
 
+            EventManager.Broadcast(new EndGameEvent(score));
+        }
+            
         public void Scomunica(PlayerModel player)
         {
             player.Scomunica = true;
@@ -168,4 +178,16 @@ namespace GameStatus
         }
 
     }
+
+    public class EndGameEvent : IGameEvent
+    {
+        public List<(PlayerModel player, bool good)> score;
+
+        public EndGameEvent(List<(PlayerModel player, bool good)> score)
+        {
+            this.score = score;
+        }
+    }
+
+    
 }
