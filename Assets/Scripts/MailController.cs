@@ -161,11 +161,15 @@ public class MailController : MonoBehaviour
 
     void OnDestroy()
     {
-        // Disconnetti il client quando il GameObject viene distrutto
-        if (client != null && client.IsConnected)
+        try
         {
-            client.Disconnect(true);    
-            client.Dispose();
+            // Disconnetti il client quando il GameObject viene distrutto
+            if (client != null && client.IsConnected)
+            {
+                client.Disconnect(true);
+                client.Dispose();
+            }
         }
+        catch (Exception ex) { }
     }
 }
