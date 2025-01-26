@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour
     public ResourceLabelsPanel resourceLabelsPanelPrefab;
     public MessagePanel messagePanelPrefab;
     public PopeController popeControllerPrefab;
+    public BollaBoardPanel bollaBoardPanelPrefab;
 
     [SerializeField] int secondsRefresh = 1;
 
@@ -58,6 +59,11 @@ public class LevelManager : MonoBehaviour
 
     private void OnStart(StartEvent evt)
     {
+        
+       
+       BollaBoardPanel bollaBoardPanel = Instantiate (bollaBoardPanelPrefab, canvas);
+
+        
 
         MessagePanel messagePanel = Instantiate(messagePanelPrefab, canvas);
 

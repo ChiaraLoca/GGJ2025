@@ -105,13 +105,13 @@ public class BanBolla : BollaModel
     {
         return "Bolla Papale di Sua Santità Sisto IV<br>" +
             "Anno del Signore 1476<br>" +
-            "Noi, Sisto IV, per l'autorità che ci è conferita dalla Santa Sede, decretiamo con il nostro pieno potere che, a partire dalla data di pubblicazione della presente, nessun commerciante possa inviare un numero<b> " + (mode == 0 ? "superiore" : "inferiore") + " a " + amount + " " + resourceDescriptionString + " </b> per missiva.<br>" +
+            "Noi, Sisto IV, per l'autorità che ci è conferita dalla Santa Sede, decretiamo con il nostro pieno potere che, a partire dalla data di pubblicazione della presente, nessun commerciante debba inviare un numero<b> " + (mode == 0 ? "superiore" : "inferiore") + " a " + amount + " " + resourceDescriptionString + " </b> per missiva.<br>" +
             "Questo decreto è valido in tutte le terre sotto la nostra giurisdizione e <u>rimarrà in vigore </u> fino a nuova disposizione.<br>";
     }
 
     public string getShortDescription()
     {
-        return "" + (mode == 0 ? "Massimo" : "Minimo") + " di " + amount + " " + resourceDescriptionString + " totali per mail </ b >";
+        return "" + (mode == 0 ? "Massimo" : "Minimo") + " di " + amount + " " + resourceDescriptionString + " totali per mail";
     }
 }
 
@@ -174,14 +174,14 @@ public class ResourceNumberBolla : BollaModel
         return
 "Bolla Papale di Sua Santità Sisto IV<br>" +
 "Anno del Signore 1476<br>" +
-"        Noi, Sisto IV, per l'autorità che ci è conferita dalla Santa Sede, " +
-"decretiamo con il nostro potere divino che, a partire dalla data di pubblicazione della presente, ogni missiva commerciale potrà trattare<b> " + (mode == 0 ? " almeno " : " al massimo ") + amount + " tipi di risorse<b>.<br>" +
+"Noi, Sisto IV, per l'autorità che ci è conferita dalla Santa Sede, " +
+"decretiamo con il nostro potere divino che, a partire dalla data di pubblicazione della presente, ogni missiva commerciale dovrà trattare<b> " + (mode == 0 ? " almeno " : " al massimo ") + amount + " tipi di risorse.<br>" +
 "Questo decreto si applica in tutte le terre sotto la nostra giurisdizione e <u>rimarrà in vigore</u> fino a nuova disposizione.<br>";
     }
 
     public string getShortDescription()
     {
-        return "" + (mode == 0 ? "Minimo" : "Massimo") + " " + amount + " risorse diverse per mail </ b >";
+        return "" + (mode == 0 ? "Minimo" : "Massimo") + " " + amount + " risorse diverse per mail";
     }
 }
 

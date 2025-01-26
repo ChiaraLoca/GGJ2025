@@ -366,6 +366,18 @@ PrefabInstance:
       propertyPath: canvasTransform
       value: 
       objectReference: {fileID: 2142355985}
+    - target: {fileID: 1517420812854811311, guid: 44779d5facf085b46b312679391d01ae, type: 3}
+      propertyPath: bubbleTimes.Array.data[0]
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517420812854811311, guid: 44779d5facf085b46b312679391d01ae, type: 3}
+      propertyPath: bubbleTimes.Array.data[1]
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517420812854811311, guid: 44779d5facf085b46b312679391d01ae, type: 3}
+      propertyPath: bubbleTimes.Array.data[2]
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 4506019489140986048, guid: 44779d5facf085b46b312679391d01ae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -431,6 +443,10 @@ PrefabInstance:
       propertyPath: secondsRefresh
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 306812341549341132, guid: 5d2a2138423f9b1418eea2114ba12313, type: 3}
+      propertyPath: bollaBoardPanelPrefab
+      value: 
+      objectReference: {fileID: 7265553635081591884, guid: 874a5c9fcbaef754ab1fcefa7466bf49, type: 3}
     - target: {fileID: 5422644476324416352, guid: 5d2a2138423f9b1418eea2114ba12313, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
