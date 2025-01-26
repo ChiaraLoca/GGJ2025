@@ -8,6 +8,8 @@ using Utility.GameEventManager;
 
 public class LevelManager : MonoBehaviour
 {
+
+
     public Transform canvas;
     public StartPanel startPanelPrefab;
     public AddCantoneLabelsPanel addCantoneLabelsPanelPrefab;
@@ -33,13 +35,15 @@ public class LevelManager : MonoBehaviour
 
 
 
-        StartCoroutine(CheckForNewMails());
+        //StartCoroutine(CheckForNewMails());
         //InvokeRepeating("CheckForNewMails", 1, secondsRefresh);
 
         StartPanel startPanel = Instantiate(startPanelPrefab, canvas);
 
        
     }
+
+    
 
     private void Awake()
     {
@@ -64,7 +68,8 @@ public class LevelManager : MonoBehaviour
         StopAllCoroutines();
         //CancelInvoke("CheckForNewMails");
         //InvokeRepeating("CheckForGameEmail", 1, secondsRefresh);
-        StartCoroutine(CheckForGameEmail());
+
+       // StartCoroutine(CheckForGameEmail());
     }
 
 

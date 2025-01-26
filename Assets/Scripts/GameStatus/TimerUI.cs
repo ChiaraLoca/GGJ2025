@@ -1,3 +1,4 @@
+using Org.BouncyCastle.Asn1.Cms;
 using TMPro;
 using UnityEngine;
 
@@ -12,9 +13,14 @@ namespace GameStatus
         }
         [SerializeField] TextMeshProUGUI time;
 
-        public void UpdateUI(float val)
+        public void UpdateUI(int totalSeconds)
         {
-            time.text = "" + (int)(val);
+            time.gameObject.SetActive(true);
+            int minutes = totalSeconds / 60;
+            int seconds = totalSeconds % 60;
+            string formattedTime = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+            time.text = formattedTime;
         }
 
 

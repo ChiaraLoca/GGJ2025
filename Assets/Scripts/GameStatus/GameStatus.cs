@@ -9,17 +9,6 @@ using Utility.GameEventManager;
 
 namespace GameStatus
 {
-    //public class ScoreManager
-    //{
-    //    public static int score;
-    //    public static int death;
-    //    public static int miss;
-
-    //    internal static void Initialize()
-    //    {
-    //        score = 0; death = 0; miss = 0;
-    //    }
-    //}
 
     public class GameStatusManager : MonoBehaviour
     {
@@ -27,8 +16,12 @@ namespace GameStatus
      
         [SerializeField] private float _maxSeconds;
         [SerializeField] private float _currentSeconds;
+        public TimerPanel _timerPanelPrefab;
+        public TimerPanel _timerPanel;
+        public Transform canvasParent;
         public List<PlayerModel> Players = new List<PlayerModel>();
         private bool _gameRunning = false;
+        private bool _timerRun = false;
         public static string _gameUID;
 
 
@@ -70,30 +63,43 @@ namespace GameStatus
         private void Awake()
         {
             instance = this;
+
+            EventManager.AddListener<StartEvent>(StartTimer);
+        }
+
+        
+
+        private void StartTimer(StartEvent evt)
+        {
+            
+            _timerRun=true;
+
+            _timerPanel = Instantiate(_timerPanelPrefab, canvasParent);
+            
         }
 
         private void Update()
         {
-            if (_gameRunning)
+            if (_timerRun)
             {
-               /* _currentSeconds += Time.deltaTime;
-                TimerUI.instance.UpdateUI(_maxSeconds - _currentSeconds);
+                _currentSeconds += Time.deltaTime;
+                _timerPanel.SetTimer(Mathf.RoundToInt(_maxSeconds - _currentSeconds));
                 if (_currentSeconds >= _maxSeconds)
                 {
                     EndGame();
-                }*/
+                }
 
             }
 
 
         }
 
-        public void Start()
+
+        private void Start()
         {
             StartGame();
         }
 
-       
         public void StartGame()
         {
 
