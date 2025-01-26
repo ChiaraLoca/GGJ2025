@@ -46,7 +46,7 @@ namespace GameStatus
                 newPlayer.Score = new Score();
                 Players.Add(newPlayer);
                 EventManager.Broadcast(new AddNewCantoneEvent(newPlayer));
-                MailController.SendEmailAsync(newPlayer.Mail,"Epistola " + _gameUID, MessageHelper.GetMailTextGameStart(newPlayer.Name,newPlayer.Quest.Description));
+                MailController.SendEmailAsync(newPlayer.Mail,"Epistola " + _gameUID, MessageHelper.GetMailTextPlayerRegistration(newPlayer.Name));
             }
 
         }

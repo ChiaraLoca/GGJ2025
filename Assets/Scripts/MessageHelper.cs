@@ -5,6 +5,8 @@ using UnityEngine;
 using System.IO;
 using Org.BouncyCastle.Crypto.Generators;
 using GameStatus;
+using System.Text.RegularExpressions;
+using UnityEditor.VersionControl;
 
 
 public static class MessageHelper
@@ -29,6 +31,7 @@ public static class MessageHelper
                 htmlContent = htmlContent.Replace("{{{"+ item.Type + "}}}", "<li>"+ item.Description +"</li>");
               
             }
+            htmlContent = Regex.Replace(htmlContent, @"({{{[^>]+}}})", "");
 
             return htmlContent;
         }
@@ -43,7 +46,7 @@ public static class MessageHelper
     {
         try
         {
-            string htmlContent = File.ReadAllText(LayoutInizioPath);
+            string htmlContent = File.ReadAllText(LayoutPlayerRegistration);
             htmlContent = htmlContent.Replace("{{{PlayerName}}}", NomePlayer);
             return htmlContent;
         }
@@ -66,6 +69,7 @@ public static class MessageHelper
                    " <p><b>"+ item.Description+":</b>"+ player.Score.getResource(item.Type).ToString() + "</p>" );
             }
             htmlContent = htmlContent.Replace("{{{Errors}}}", getLayoutErrori(errors));
+            htmlContent = Regex.Replace(htmlContent, @"({{{[^>]+}}})", "");
             return htmlContent;
         }
         catch (Exception ex)
