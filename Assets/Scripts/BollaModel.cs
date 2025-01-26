@@ -111,7 +111,7 @@ public class BanBolla : BollaModel
 
     public string getShortDescription()
     {
-        return "" + (mode == 0 ? "Massimo" : "Minimo") + " di " + amount + " " + resourceDescriptionString + " totali per mail </ b >";
+        return "" + (mode == 0 ? "Massimo" : "Minimo") + " di " + amount + " " + resourceDescriptionString + " totali per mail";
     }
 }
 
@@ -181,7 +181,7 @@ public class ResourceNumberBolla : BollaModel
 
     public string getShortDescription()
     {
-        return "" + (mode == 0 ? "Minimo" : "Massimo") + " " + amount + " risorse diverse per mail </ b >";
+        return "" + (mode == 0 ? "Minimo" : "Massimo") + " " + amount + " risorse diverse per mail";
     }
 }
 

@@ -366,6 +366,18 @@ PrefabInstance:
       propertyPath: canvasTransform
       value: 
       objectReference: {fileID: 2142355985}
+    - target: {fileID: 1517420812854811311, guid: 44779d5facf085b46b312679391d01ae, type: 3}
+      propertyPath: bubbleTimes.Array.data[0]
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517420812854811311, guid: 44779d5facf085b46b312679391d01ae, type: 3}
+      propertyPath: bubbleTimes.Array.data[1]
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517420812854811311, guid: 44779d5facf085b46b312679391d01ae, type: 3}
+      propertyPath: bubbleTimes.Array.data[2]
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 4506019489140986048, guid: 44779d5facf085b46b312679391d01ae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

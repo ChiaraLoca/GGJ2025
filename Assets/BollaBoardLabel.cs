@@ -10,7 +10,7 @@ public class BollaBoardLabel : MonoBehaviour
 
     internal void Initialize(BollaModel bollaModel)
     {
-        text.text = bollaModel.getDescription();
+        text.text = bollaModel.getShortDescription();
     }
 
     
