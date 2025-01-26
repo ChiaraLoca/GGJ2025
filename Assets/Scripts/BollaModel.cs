@@ -4,9 +4,9 @@ using UnityEngine;
 
 public interface BollaModel
 {
-    bool check(List<Transaction> transactions);
-    string getDescription();
-    string getShortDescrtiption();
+    public bool check(List<Transaction> transactions);
+    public string getDescription();
+    public string getShortDescription();
 }
 
 public class BanBolla : BollaModel
