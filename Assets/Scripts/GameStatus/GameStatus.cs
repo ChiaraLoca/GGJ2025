@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utility.GameEventManager;
@@ -21,8 +22,8 @@ namespace GameStatus
         public List<PlayerModel> Players = new List<PlayerModel>();
         private bool _gameRunning = false;
         private bool _timerRun = false;
+        public static string _gameUID;
 
-       
 
         public PlayerModel FindPlayer(string name)
         {
@@ -45,7 +46,7 @@ namespace GameStatus
                 newPlayer.Score = new Score();
                 Players.Add(newPlayer);
                 EventManager.Broadcast(new AddNewCantoneEvent(newPlayer));
-                MailController.SendEmailAsync(newPlayer.Mail,"Epistola", MessageHelper.GetMailTextGameStart(newPlayer.Name,newPlayer.Quest.Description));
+                MailController.SendEmailAsync(newPlayer.Mail,"Epistola " + _gameUID, MessageHelper.GetMailTextGameStart(newPlayer.Name,newPlayer.Quest.Description));
             }
 
         }
@@ -106,6 +107,7 @@ namespace GameStatus
             _currentSeconds = 0;
             //TODO LEVEL START 
             _gameRunning = true;
+            _gameUID = ConvertDateToRoman( DateTime.Now);
         }
         public void EndGame()
         {
@@ -143,6 +145,36 @@ namespace GameStatus
         public void Scomunica(PlayerModel player)
         {
             player.Scomunica = true;
+        }
+
+        private static readonly string[] RomanThousands = { "", "M", "MM", "MMM" };
+        private static readonly string[] RomanHundreds = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" };
+        private static readonly string[] RomanTens = { "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" };
+        private static readonly string[] RomanOnes = { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
+
+        public static string ConvertDateToRoman(DateTime date)
+        {
+            StringBuilder romanDate = new StringBuilder();
+
+            romanDate.Append(ConvertToRoman(date.Day));
+            romanDate.Append("·");
+            romanDate.Append(ConvertToRoman(date.Month));
+            romanDate.Append("·");
+            romanDate.Append(ConvertToRoman(date.Year));
+            romanDate.Append(" HORAE");
+            romanDate.Append(ConvertToRoman(date.Hour));
+            romanDate.Append(":");
+            romanDate.Append(ConvertToRoman(date.Minute));
+
+            return romanDate.ToString();
+        }
+
+        private static string ConvertToRoman(int number)
+        {
+            return RomanThousands[number / 1000] +
+                   RomanHundreds[(number % 1000) / 100] +
+                   RomanTens[(number % 100) / 10] +
+                   RomanOnes[number % 10];
         }
 
     }
