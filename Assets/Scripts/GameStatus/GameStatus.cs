@@ -42,7 +42,7 @@ namespace GameStatus
                 PlayerModel newPlayer = new PlayerModel();
                 newPlayer.Mail = mailModel.MailFrom;
                 newPlayer.Name = GetRandomName();
-                newPlayer.Quest = QuestController.GetRandomQuest();
+                newPlayer.Quest = QuestController.GetEmptyQuest();
                 newPlayer.Score = new Score();
                 Players.Add(newPlayer);
                 EventManager.Broadcast(new AddNewCantoneEvent(newPlayer));
@@ -151,7 +151,7 @@ namespace GameStatus
             romanDate.Append(ConvertToRoman(date.Month));
             romanDate.Append("·");
             romanDate.Append(ConvertToRoman(date.Year));
-            romanDate.Append(" HORAE");
+            romanDate.Append(" HORAE ");
             romanDate.Append(ConvertToRoman(date.Hour));
             romanDate.Append(":");
             romanDate.Append(ConvertToRoman(date.Minute));

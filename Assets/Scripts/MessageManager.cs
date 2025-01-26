@@ -12,7 +12,7 @@ public class MessageManager : MonoBehaviour
 
     private void OnSendResponse(SendResponseEvent evt)
     {
-        int randomeResurce = UnityEngine.Random.Range(0, 4);
+        int randomeResurce = UnityEngine.Random.Range(0, GameModel.Risorse.Count);
         int randomMore = UnityEngine.Random.Range(0, 2);
 
         (string Description, string Type) res = GameModel.Risorse[randomeResurce];

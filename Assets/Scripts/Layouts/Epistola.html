@@ -100,24 +100,53 @@
         font-style: italic;
         color: #6b4b00;
       }
+
+      .obiettivo{
+        border: 2px solid #c1a97e;
+        /* border-color: #c1a97e; */
+        padding: 13px;
+        border-radius: 10px;
+        font-size: x-large;
+        text-transform: uppercase;
+        margin: 20px;
+      }
     </style>
   </head>
 <body>
   <div class="container">
     <!-- Header -->
-    <div class="header">SANCTVS EPISCOPVS PAPAE SITI IV</div>
+    <div class="header">OBIETTIVUS {{{PlayerName}}}, A SANCTO PATRE SISTO IV</div>
     <div class="decorative-line"></div>
 
     <!-- Body -->
     <div class="content">
       <p>
-        Fratelli Confederati,<br>
-        {{{TEXT}}}
+        Fratello Confederato,<br>
+        Vi assegno il vostro obiettivo:
       </p>
+      
+      <p class="obiettivo"><i  >{{{OBIETTIVO}}}</i>  </p>
+      <br>
       <p>
-        Vi invitiamo a pregare incessantemente e a diffondere il Vangelo tra i popoli,
-        affinché il nome del Signore sia glorificato in tutte le nazioni.
+        Le risorse usate in questa partita sono:
       </p>
+      <b>
+        <ul>
+
+          {{{Horses}}}
+
+          {{{Iron}}}
+
+          {{{Coppers}}}
+
+          {{{Salt}}}
+
+          {{{Wheat}}}
+
+      </ul>
+    </b>
+     
+    
     </div>
 
     <!-- Wax Seal -->
