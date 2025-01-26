@@ -25,7 +25,7 @@ public class MailController : MonoBehaviour
     {
         // Connetti e autentica una volta
         yield return TaskToCoroutine(ConnectAndAuthenticateAsync());
-
+        yield return TaskToCoroutine(SeeAllMails());    
         while (true)
         {
             // Esegui il metodo per ricevere le email
@@ -59,6 +59,20 @@ public class MailController : MonoBehaviour
     public static List<MailModel> GetRetrievedEmailList()
     {
         return retrievedEmailList;
+    }
+
+    public async Task SeeAllMails()
+    {
+        var inbox = client.Inbox;
+        await inbox.OpenAsync(FolderAccess.ReadWrite);
+
+        // Recupera solo i messaggi non letti
+        var uids = await inbox.SearchAsync(SearchQuery.NotSeen);
+        Debug.Log(uids.Count);
+        foreach (var uid in uids)
+        {
+            await inbox.AddFlagsAsync(uid, MessageFlags.Seen, true);
+        }
     }
 
     public async Task RetrieveEmailAsync()
@@ -100,33 +114,6 @@ public class MailController : MonoBehaviour
         }
     }
 
-
-    //public static void SendEmail(string to, string subject, string body)
-    //{
-    //    using (var client = new MailKit.Net.Smtp.SmtpClient())
-    //    {
-    //        client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-    //        client.Authenticate("papa.sisto.quarto@gmail.com", "zpac evik xmbc cdry");
-    //        var message = new MimeMessage();
-    //        message.From.Add(new MailboxAddress("Papa Sisto IV", "papa.sisto.quarto@gmail.com"));
-    //        message.To.Add(new MailboxAddress("", to));
-    //        message.Subject = subject;
-
-    //        var bodyBuilder = new BodyBuilder
-    //        {
-    //            HtmlBody = body
-    //        };
-    //        var logoPath = "Assets/Images/sigillo3D.png"; // Path relativo o assoluto dell'immagine
-    //        var logo = bodyBuilder.LinkedResources.Add(logoPath);
-    //        logo.ContentId = "logo-image"; // Deve corrispondere al CID specificato nell'HTML
-    //        logo.ContentDisposition = new ContentDisposition(ContentDisposition.Inline);
-    //        logo.ContentType.MediaType = "image";
-    //        logo.ContentType.MediaSubtype = "png";
-    //        message.Body = bodyBuilder.ToMessageBody();
-    //        client.Send(message);
-    //        client.Disconnect(true);
-    //    }
-    //}
     public static async Task SendEmail(string to, string subject, string body)
     {
         using (var client = new MailKit.Net.Smtp.SmtpClient())
