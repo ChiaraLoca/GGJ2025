@@ -30,10 +30,9 @@ public class LevelManager : MonoBehaviour
     {
         GameModel.Init();
 
-        AddCantoneLabelsPanel addCantoneLabelsPanel = Instantiate(addCantoneLabelsPanelPrefab, canvas);
-        
+        //AddCantoneLabelsPanel addCantoneLabelsPanel = Instantiate(addCantoneLabelsPanelPrefab, canvas);
 
-
+        CantoneLabelsPanel cantoneLabelsPanel = Instantiate(cantoneLabelsPanelPrefab, canvas);
 
         StartCoroutine(CheckForNewMails());
         

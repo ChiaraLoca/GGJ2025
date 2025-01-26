@@ -19,8 +19,9 @@ public static class Parser
 {
 
 
-    public static int Parse(string text, PlayerModel mittente)
+    public static int Parse(string rawText, PlayerModel mittente)
     {
+        string text = cleanInput(rawText);
         var transactionText = Regex.Split(text, "\r\n|\r|\n");
         List<Transaction> transactions = new List<Transaction>();
         int errors = 0;
@@ -33,6 +34,11 @@ public static class Parser
             EventManager.Broadcast(new ScomunicaEvent(mittente));
         }
         return errors;
+    }
+
+    private static string cleanInput(string rawText)
+    {
+        return rawText.Split("<")[0]
     }
 
     private static int ParseLine(string line, List<Transaction> transactions, PlayerModel mittente)
