@@ -174,8 +174,8 @@ public class ResourceNumberBolla : BollaModel
         return
 "Bolla Papale di Sua Santità Sisto IV<br>" +
 "Anno del Signore 1476<br>" +
-"        Noi, Sisto IV, per l'autorità che ci è conferita dalla Santa Sede, " +
-"decretiamo con il nostro potere divino che, a partire dalla data di pubblicazione della presente, ogni missiva commerciale dovrà trattare<b> " + (mode == 0 ? " almeno " : " al massimo ") + amount + " tipi di risorse<b>.<br>" +
+"Noi, Sisto IV, per l'autorità che ci è conferita dalla Santa Sede, " +
+"decretiamo con il nostro potere divino che, a partire dalla data di pubblicazione della presente, ogni missiva commerciale dovrà trattare<b> " + (mode == 0 ? " almeno " : " al massimo ") + amount + " tipi di risorse.<br>" +
 "Questo decreto si applica in tutte le terre sotto la nostra giurisdizione e <u>rimarrà in vigore</u> fino a nuova disposizione.<br>";
     }
 
