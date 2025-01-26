@@ -144,6 +144,15 @@ public static class GameModel
         ("Sale", "Salt"),
         ("Grano", "Wheat")
     };
+
+    public static Dictionary<string, string> DizionarioRisorse = new Dictionary<string, string>
+    {
+        ["Horses"] = "cavalli",
+        ["Coppers"] = "rame",
+        ["Irons"] = "ferro",
+        ["Salt"] = "sale",
+        ["Wheat"] = "grano"
+    };
 }
 
 

@@ -96,12 +96,12 @@ public class LevelManager : MonoBehaviour
     { var players = GameStatusManager.instance.Players.Count;
         if (players <= 3)
         {
-            GameModel.Risorse = GameModel.Risorse.GetRange(0, 4);
+            GameModel.Risorse = GameModel.Risorse.GetRange(0, 3);
             return;
         }
         if(players <= 5)
         {
-            GameModel.Risorse = GameModel.Risorse.GetRange(0,5);
+            GameModel.Risorse = GameModel.Risorse.GetRange(0,4);
             return;
         }
         return;

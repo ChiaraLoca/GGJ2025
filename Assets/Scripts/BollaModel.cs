@@ -4,8 +4,9 @@ using UnityEngine;
 
 public interface BollaModel
 {
-    bool check(List<Transaction> transactions);
-    string getDescription();
+    public bool check(List<Transaction> transactions);
+    public string getDescription();
+    public string getShortDescription();
 }
 
 public class BanBolla : BollaModel
@@ -32,7 +33,7 @@ public class BanBolla : BollaModel
         List<int> indexes = new List<int>();
         for (int i = 0; i < resourceN; i++)
         {
-            int newIndex = Random.Range(0, GameModel.Risorse.Count + 1);
+            int newIndex = Random.Range(0, GameModel.Risorse.Count);
             if (!indexes.Contains(newIndex))
             {
                 indexes.Add(newIndex);
@@ -53,8 +54,8 @@ public class BanBolla : BollaModel
         this.mode = mode;
         for(int i=0; i<resources.Length; i++)
         {
-            resourceDescriptionString += resources[i];
-            if (i>0)
+            resourceDescriptionString += GameModel.DizionarioRisorse[resources[i]];
+            if (resources.Length>1 && i!= resources.Length-1)
             {
                 resourceDescriptionString += ",";
             }
@@ -82,13 +83,13 @@ public class BanBolla : BollaModel
                 switch (mode)
                 {
                     case 0:
-                        if (res.Value < amount)
+                        if (res.Value > amount)
                         {
                             return false;
                         };
                         break;
                     case 1:
-                        if (res.Value > amount)
+                        if (res.Value < amount)
                         {
                             return false;
                         }
@@ -104,8 +105,13 @@ public class BanBolla : BollaModel
     {
         return "Bolla Papale di Sua Santità Sisto IV<br>" +
             "Anno del Signore 1476<br>" +
-            "Noi, Sisto IV, per l'autorità che ci è conferita dalla Santa Sede, decretiamo con il nostro pieno potere che, a partire dalla data di pubblicazione della presente, nessun commerciante possa inviare un numero<b> "+ (mode==0?"superiore":"inferiore") + " a " + amount + resourceDescriptionString + " </b> per missiva.<br>" +
+            "Noi, Sisto IV, per l'autorità che ci è conferita dalla Santa Sede, decretiamo con il nostro pieno potere che, a partire dalla data di pubblicazione della presente, nessun commerciante possa inviare un numero<b> " + (mode == 0 ? "superiore" : "inferiore") + " a " + amount + " " + resourceDescriptionString + " </b> per missiva.<br>" +
             "Questo decreto è valido in tutte le terre sotto la nostra giurisdizione e <u>rimarrà in vigore </u> fino a nuova disposizione.<br>";
+    }
+
+    public string getShortDescription()
+    {
+        return "" + (mode == 0 ? "Massimo" : "Minimo") + " di " + amount + " " + resourceDescriptionString + " totali per mail </ b >";
     }
 }
 
@@ -171,6 +177,11 @@ public class ResourceNumberBolla : BollaModel
 "        Noi, Sisto IV, per l'autorità che ci è conferita dalla Santa Sede, " +
 "decretiamo con il nostro potere divino che, a partire dalla data di pubblicazione della presente, ogni missiva commerciale potrà trattare<b> " + (mode == 0 ? " almeno " : " al massimo ") + amount + " tipi di risorse<b>.<br>" +
 "Questo decreto si applica in tutte le terre sotto la nostra giurisdizione e <u>rimarrà in vigore</u> fino a nuova disposizione.<br>";
+    }
+
+    public string getShortDescription()
+    {
+        return "" + (mode == 0 ? "Minimo" : "Massimo") + " " + amount + " risorse diverse per mail </ b >";
     }
 }
 
