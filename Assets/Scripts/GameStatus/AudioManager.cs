@@ -43,7 +43,7 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(Clip("timbro"));
     }
 
-    private void OnBubbleCreate(SendResponseEvent @event)
+    private void OnBubbleCreate(CreateBubbleEvent @event)
     {
         StartCoroutine(Clip("campane"));
     }
@@ -148,7 +148,7 @@ public class AudioManager : MonoBehaviour
         }
         musicAudioSource.clip = newTrack;
         musicAudioSource.Play();
-        return;
+        yield return null;
 
     }
 }
