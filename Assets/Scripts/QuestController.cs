@@ -26,6 +26,18 @@ public static class QuestController
         return result;
     }
 
+    public static Quest GetEmptyQuest()
+    {
+        return new Quest()
+        {
+            Description = "Nessuna missione",
+            Check = (Score score, List<PlayerModel> players) =>
+            {
+                return true;
+            },
+        };
+    }   
+
     private static List<Quest> InitializeQuestList()
     {
         var QuestList = new List<Quest>();

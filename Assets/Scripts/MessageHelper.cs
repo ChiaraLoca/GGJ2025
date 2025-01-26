@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Org.BouncyCastle.Crypto.Generators;
+using GameStatus;
+using System.Text.RegularExpressions;
+using UnityEditor.VersionControl;
 
 
 public static class MessageHelper
 {
-    private static string LayoutInizioPath = "Assets/Scripts/Layouts/LayoutInizio.html";
+    private static string LayoutPlayerRegistration = "Assets/Scripts/Layouts/LayoutInizio.html";
+    private static string LayoutInizioPath = "Assets/Scripts/Layouts/Epistola.html";
     private static string LayoutEstrattoConto = "Assets/Scripts/Layouts/LayoutEstrattoConto.html";
     private static string LayoutScomunica = "Assets/Scripts/Layouts/LayoutScomunica.html";
     private static string LayoutPartialErrors = "Assets/Scripts/Layouts/LayoutPartialErrors.html";
@@ -22,6 +26,28 @@ public static class MessageHelper
             string htmlContent = File.ReadAllText(LayoutInizioPath);
             htmlContent = htmlContent.Replace("{{{PlayerName}}}", NomePlayer);
             htmlContent = htmlContent.Replace("{{{OBIETTIVO}}}", Obiettivo);
+            foreach (var item in GameModel.Risorse)
+            {
+                htmlContent = htmlContent.Replace("{{{"+ item.Type + "}}}", "<li>"+ item.Description +"</li>");
+              
+            }
+            htmlContent = Regex.Replace(htmlContent, @"({{{[^>]+}}})", "");
+
+            return htmlContent;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Errore durante la lettura del file: " + ex.Message);
+            return "";
+        }
+    }
+
+    public static string GetMailTextPlayerRegistration(string NomePlayer)
+    {
+        try
+        {
+            string htmlContent = File.ReadAllText(LayoutPlayerRegistration);
+            htmlContent = htmlContent.Replace("{{{PlayerName}}}", NomePlayer);
             return htmlContent;
         }
         catch (Exception ex)
@@ -37,12 +63,13 @@ public static class MessageHelper
         {
             string htmlContent = File.ReadAllText(LayoutEstrattoConto);
             htmlContent = htmlContent.Replace("{{{PlayerName}}}", player.Name);
-            htmlContent = htmlContent.Replace("{{{Horses}}}", player.Score.getResource("Horses").ToString());
-            htmlContent = htmlContent.Replace("{{{Coppers}}}", player.Score.getResource("Coppers").ToString());
-            htmlContent = htmlContent.Replace("{{{Iron}}}", player.Score.getResource("Irons").ToString());
-            htmlContent = htmlContent.Replace("{{{Wheat}}}", player.Score.getResource("Wheat").ToString());
-            htmlContent = htmlContent.Replace("{{{Salt}}}", player.Score.getResource("Salt").ToString());
+            foreach (var item in GameModel.Risorse)
+            {
+                htmlContent = htmlContent.Replace("{{{"+item.Type +"}}}",
+                   " <p><b>"+ item.Description+":</b>"+ player.Score.getResource(item.Type).ToString() + "</p>" );
+            }
             htmlContent = htmlContent.Replace("{{{Errors}}}", getLayoutErrori(errors));
+            htmlContent = Regex.Replace(htmlContent, @"({{{[^>]+}}})", "");
             return htmlContent;
         }
         catch (Exception ex)

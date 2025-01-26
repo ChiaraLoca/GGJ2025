@@ -31,12 +31,12 @@ public class LevelManager : MonoBehaviour
         GameModel.Init();
 
         AddCantoneLabelsPanel addCantoneLabelsPanel = Instantiate(addCantoneLabelsPanelPrefab, canvas);
+        
 
 
 
-
-        //StartCoroutine(CheckForNewMails());
-        //InvokeRepeating("CheckForNewMails", 1, secondsRefresh);
+        StartCoroutine(CheckForNewMails());
+        
 
         StartPanel startPanel = Instantiate(startPanelPrefab, canvas);
 
@@ -48,14 +48,19 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         EventManager.AddListener<StartEvent>(OnStart);
+        EventManager.AddListener<EndGameEvent>(OnEnd);
+    }
+
+    private void OnEnd(EndGameEvent evt)
+    {
+        StopAllCoroutines();
     }
 
     private void OnStart(StartEvent evt)
     {
         
        
-        CantoneLabelsPanel cantoneLabelsPanel = Instantiate(cantoneLabelsPanelPrefab, canvas);
-        cantoneLabelsPanel.Initialize();
+       
 
         ResourceLabelsPanel resourceLabelsPanel = Instantiate(resourceLabelsPanelPrefab, canvas);
         resourceLabelsPanel.Initialize(new List<string> { "Cavalli", "Rame", "Ferro","Grano","Sale" });
@@ -66,10 +71,36 @@ public class LevelManager : MonoBehaviour
         popeController.Initialize();
 
         StopAllCoroutines();
-        //CancelInvoke("CheckForNewMails");
-        //InvokeRepeating("CheckForGameEmail", 1, secondsRefresh);
+        CancelInvoke("CheckForNewMails");
+        SetPlayerResources();
+        SendPlayerQuests();
+        InvokeRepeating("CheckForGameEmail", 1, secondsRefresh);
+        StartCoroutine(CheckForGameEmail());
+    }
 
-       // StartCoroutine(CheckForGameEmail());
+    private void SendPlayerQuests()
+    {
+        foreach (var player in GameStatusManager.instance.Players)
+        {
+            player.Quest = QuestController.GetRandomQuest();
+            MailController.SendEmailAsync(player.Mail, "Epistola " + GameStatus.GameStatusManager._gameUID, MessageHelper.GetMailTextGameStart(player.Name, player.Quest.Description));
+        }
+    }
+
+    public void SetPlayerResources()
+    { var players = GameStatusManager.instance.Players.Count;
+        if (players <= 3)
+        {
+            GameModel.Risorse = GameModel.Risorse.GetRange(0, 3);
+            return;
+        }
+        if(players <= 5)
+        {
+            GameModel.Risorse = GameModel.Risorse.GetRange(0,4);
+            return;
+        }
+        return;
+        
     }
 
 

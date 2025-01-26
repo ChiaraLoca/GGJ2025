@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using GameStatus;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +14,18 @@ public class BubbleManager : MonoBehaviour
 
     public List<float> bubbleTimes;
 
-    private void Start()
+    private void Awake()
+    {
+        EventManager.AddListener<StartEvent>(OnStart);
+        EventManager.AddListener<EndGameEvent>(OnEnd);
+    }
+
+    private void OnEnd(EndGameEvent evt)
+    {
+        StopAllCoroutines();
+    }
+
+    private void OnStart(StartEvent evt)
     {
         foreach (var bubbleTime in bubbleTimes)
         {
