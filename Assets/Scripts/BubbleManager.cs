@@ -41,7 +41,7 @@ public class BubbleManager : MonoBehaviour
 
 
         BollaPanel bollaPanel = Instantiate(BollaPanelPrefab, canvasTransform);
-        bollaPanel.Initialize(bollaModel.getDescription());
+        bollaPanel.Initialize(bollaModel);
         EventManager.Broadcast(new CreateBubbleEvent(bollaModel));
     }
 

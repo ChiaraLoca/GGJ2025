@@ -431,6 +431,10 @@ PrefabInstance:
       propertyPath: secondsRefresh
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 306812341549341132, guid: 5d2a2138423f9b1418eea2114ba12313, type: 3}
+      propertyPath: bollaBoardPanelPrefab
+      value: 
+      objectReference: {fileID: 7265553635081591884, guid: 874a5c9fcbaef754ab1fcefa7466bf49, type: 3}
     - target: {fileID: 5422644476324416352, guid: 5d2a2138423f9b1418eea2114ba12313, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
