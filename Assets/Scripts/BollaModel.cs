@@ -102,10 +102,10 @@ public class BanBolla : BollaModel
 
     public string getDescription()
     {
-        return "Bolla Papale di Sua Santità Sisto IV" +
-            "Anno del Signore 1476 " +
-            "Noi, Sisto IV, per l'autorità che ci è conferita dalla Santa Sede, decretiamo con il nostro pieno potere che, a partire dalla data di pubblicazione della presente, nessun commerciante possa inviare un numero"+ (mode==0?"superiore":"inferiore") + "a" + amount + resourceDescriptionString + "per missiva." +
-            "Questo decreto è valido in tutte le terre sotto la nostra giurisdizione e rimarrà in vigore fino a nuova disposizione.";
+        return "Bolla Papale di Sua Santità Sisto IV<br>" +
+            "Anno del Signore 1476<br>" +
+            "Noi, Sisto IV, per l'autorità che ci è conferita dalla Santa Sede, decretiamo con il nostro pieno potere che, a partire dalla data di pubblicazione della presente, nessun commerciante possa inviare un numero<b> "+ (mode==0?"superiore":"inferiore") + " a " + amount + resourceDescriptionString + " </b> per missiva.<br>" +
+            "Questo decreto è valido in tutte le terre sotto la nostra giurisdizione e <u>rimarrà in vigore </u> fino a nuova disposizione.<br>";
     }
 }
 
@@ -166,11 +166,11 @@ public class ResourceNumberBolla : BollaModel
     public string getDescription()
     {
         return
-"Bolla Papale di Sua Santità Sisto IV" +
-"Anno del Signore 1476" +
+"Bolla Papale di Sua Santità Sisto IV<br>" +
+"Anno del Signore 1476<br>" +
 "        Noi, Sisto IV, per l'autorità che ci è conferita dalla Santa Sede, " +
-"decretiamo con il nostro potere divino che, a partire dalla data di pubblicazione della presente, ogni missiva commerciale potrà trattare" + (mode == 0 ? " almeno " : " al massimo ") + amount + " tipi di risorse per volta, sia che si tratti di beni materiali, come grano, vino, tessuti, o simili, sia di animali e manufatti." +
-"Questo decreto si applica in tutte le terre sotto la nostra giurisdizione e rimarrà in vigore fino a nuova disposizione.";
+"decretiamo con il nostro potere divino che, a partire dalla data di pubblicazione della presente, ogni missiva commerciale potrà trattare<b> " + (mode == 0 ? " almeno " : " al massimo ") + amount + " tipi di risorse<b>.<br>" +
+"Questo decreto si applica in tutte le terre sotto la nostra giurisdizione e <u>rimarrà in vigore</u> fino a nuova disposizione.<br>";
     }
 }
 

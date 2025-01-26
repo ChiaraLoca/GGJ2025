@@ -37,12 +37,21 @@ public class BubbleManager : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
 
-        BollaModel bollaModel = new BanBolla(1, 50, "Horses", "Salt");
+        BollaModel bollaModel = GetRandomBolla();
 
 
         BollaPanel bollaPanel = Instantiate(BollaPanelPrefab, canvasTransform);
         bollaPanel.Initialize(bollaModel.getDescription());
         EventManager.Broadcast(new CreateBubbleEvent(bollaModel));
+    }
+
+    public BollaModel GetRandomBolla()
+    {
+        int ran = UnityEngine.Random.Range(0, 2);
+        if (ran == 0)
+            return BanBolla.Build();
+        else
+            return ResourceNumberBolla.Build();
     }
 }
 

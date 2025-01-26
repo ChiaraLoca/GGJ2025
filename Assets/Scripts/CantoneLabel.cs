@@ -24,6 +24,7 @@ public class CantoneLabel : MonoBehaviour
     internal void Initialize(PlayerModel player)
     {
         _playerModel = player;
+        SetLabel(player.Name);
     }
 
     internal void Scomunica()
