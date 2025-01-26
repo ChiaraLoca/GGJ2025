@@ -9,7 +9,13 @@ public class PopeController : MonoBehaviour
     private void Awake()
     {
         EventManager.AddListener<SendResponseEvent>(OnResponseSent);
+        EventManager.AddListener<ScomunicaEvent>(OnScomunica);
 
+    }
+
+    private void OnScomunica(ScomunicaEvent evt)
+    {
+        _animator.SetTrigger("scomunica");
     }
 
     private void OnResponseSent(SendResponseEvent evt)
