@@ -12,7 +12,7 @@ public class ScomunicaController : MonoBehaviour
     {
         evt.player.Scomunica = true;
 
-        MailController.SendEmail(evt.player.Mail, "SCOMUNICA", MessageHelper.GetMailTextScomunica(evt.player.Name));
+        MailController.SendEmailAsync(evt.player.Mail, "SCOMUNICA", MessageHelper.GetMailTextScomunica(evt.player.Name));
         EventManager.Broadcast(new AddMessageEvent("<color=#ff0000> <b>Il cantone " + evt.player.Name + " è stato scomunicato</b> </color>" ));
     }
 }

@@ -77,7 +77,7 @@ public class LevelManager : MonoBehaviour
     {
         while (true)
         {
-            yield return StartCoroutine(MailController.RunRetrieveEmailAsyncAsCoroutine());
+           
             List<MailModel> mails = MailController.GetRetrievedEmailList();
             Debug.Log("CheckForNewMails " + string.Join(", ", mails));
 
@@ -93,7 +93,7 @@ public class LevelManager : MonoBehaviour
     {
         while (true)
         {
-            yield return StartCoroutine(MailController.RunRetrieveEmailAsyncAsCoroutine());
+            
             List<MailModel> mails = MailController.GetRetrievedEmailList();
             Debug.Log("CheckForGameEmail " + string.Join(", ", mails));
 
@@ -103,7 +103,7 @@ public class LevelManager : MonoBehaviour
                 if (p.Scomunica)
                     continue;
                 int errors = Parser.Parse(mail.Body, p);
-                MailController.SendEmail(mail.MailFrom, "Epistola", MessageHelper.GetMailTextEstrattoConto(p, errors));
+                MailController.SendEmailAsync(mail.MailFrom, "Epistola", MessageHelper.GetMailTextEstrattoConto(p, errors));
 
             }
 

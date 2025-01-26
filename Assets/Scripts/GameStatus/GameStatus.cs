@@ -45,9 +45,9 @@ namespace GameStatus
                 newPlayer.Score = new Score();
                 Players.Add(newPlayer);
                 EventManager.Broadcast(new AddNewCantoneEvent(newPlayer));
-                MailController.SendEmail(newPlayer.Mail,"Epistola", MessageHelper.GetMailTextGameStart(newPlayer.Name,newPlayer.Quest.Description));
+                MailController.SendEmailAsync(newPlayer.Mail,"Epistola", MessageHelper.GetMailTextGameStart(newPlayer.Name,newPlayer.Quest.Description));
             }
-                
+
         }
 
         public string GetRandomName()
@@ -121,10 +121,10 @@ namespace GameStatus
             {
                 if (QuestController.Check(player, instance.Players))
                 {
-                    MailController.SendEmail(player.Mail, "La sua gratitudine è stata Ricompensata", MessageHelper.GetMailTextVittoria(player.Name));
+                    MailController.SendEmailAsync(player.Mail, "La sua gratitudine è stata Ricompensata", MessageHelper.GetMailTextVittoria(player.Name));
                     continue;
                 }
-                MailController.SendEmail(player.Mail, "Dilectis in Christo filiis, salutem et apostolicam benedictionem", MessageHelper.GetMailTextSconfitta(player.Name));
+                MailController.SendEmailAsync(player.Mail, "Dilectis in Christo filiis, salutem et apostolicam benedictionem", MessageHelper.GetMailTextSconfitta(player.Name));
      
 
             }
