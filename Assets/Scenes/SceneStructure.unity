@@ -652,7 +652,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6473477605597120418, guid: 46799902947fd564890efeecaf102bdc, type: 3}
       propertyPath: _maxSeconds
-      value: 500
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 6473477605597120418, guid: 46799902947fd564890efeecaf102bdc, type: 3}
       propertyPath: canvasParent
